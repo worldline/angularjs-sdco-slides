@@ -1,0 +1,15 @@
+extends ../layout
+block append content
+
+  div(class="row" style="margin-left:5px; margin-right: 0;")
+    div(class="col-sm-11" 
+      style="width:{{progressBarWidth}}; padding-right: 0px; padding-left: 0px;"
+    )
+      updatable-progress-bar(
+        the-array="slides"
+        tooltip-field="'url'"
+        current-index="currentIndex"
+      )
+  a(move-slide left="true" class="left-link")
+  a(move-slide right="true" class="right-link")
+  div(ng-view ng-class="slideClasses" class="view-content")

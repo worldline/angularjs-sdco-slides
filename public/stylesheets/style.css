@@ -1,0 +1,28 @@
+
+/*Left and right buttons */
+ a.left-link{
+ 	position:absolute;
+ 	left:0px;
+ 	top:100px;
+ 	background-image: url("../images/navigate-left-icon3.png");
+ 	width: 48px;
+ 	height:48px;
+ }
+
+  a.right-link{
+ 	position:absolute;
+ 	right:0px;
+ 	top:100px;  	
+ 	background-image: url("../images/navigate-right-icon3.png");
+ 	width: 48px;
+ 	height:48px;
+ }
+
+/* view content */
+.view-content{
+	margin-left: 50px;
+	margin-right: 50px;
+	margin-top: 40px;
+	width: 90%;
+	border: 1px solid black;
+}
