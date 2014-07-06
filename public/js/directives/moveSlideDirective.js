@@ -7,22 +7,25 @@
 });*/
 
 angular.module('blogApp')
-.directive('moveSlide',[ 'slidesNavigatorService', 'animationManagerService', '$log',
-	function(slideNavigatorService, animationManagerService, $log){
+.directive('moveSlide',[ '$log',
+	function($log){
 		return{
 			restrict: 'A',
 			scope:{
 				left:'=left',
-				right:'=right'
+				right:'=right',
+				currentIndex:'='
 			},
 			link:function(scope, element, attrs){
 
 				element.on('click',function(){
 					scope.$apply(function(){
 						if (scope.right==true){
-				    		slideNavigatorService.increment();					
+				    		// slideNavigatorService.increment();
+				    		scope.currentIndex++;
 						}else if (scope.left==true){
-				    		slideNavigatorService.decrement();
+				    		// slideNavigatorService.decrement();
+				    		scope.currentIndex--;
 						}
 					});
 				});

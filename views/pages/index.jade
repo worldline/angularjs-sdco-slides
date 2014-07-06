@@ -10,6 +10,6 @@ block append content
         tooltip-field="'url'"
         current-index="currentIndex"
       )
-  a(move-slide left="true" class="left-link")
-  a(move-slide right="true" class="right-link")
+  a(move-slide left="true" class="left-link" current-index='currentIndex')
+  a(move-slide right="true" class="right-link" current-index='currentIndex')
   div(ng-view ng-class="slideClasses" class="view-content")

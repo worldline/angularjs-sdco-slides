@@ -9,7 +9,7 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 
 	this.init= function(){
 		var that= this;
-		$rootScope.$on("$locationChangeStart",
+/*		$rootScope.$on("$locationChangeStart",
 			function(event, next, previous){
 				if (next == that.nextRoute){
 					//Event throwed by this service, avoid recursive calls
@@ -31,7 +31,7 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 					}
 				}
 			}
-		);
+		);*/
 	}
 
 
@@ -44,12 +44,20 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 	}
 
 	this.goToIndex= function(idx){
-		if (idx<0 || idx+1>this.nbSlides){
-			return;
+		if (idx<0){
+			return 0;
+		} 
+		if(idx+1>this.nbSlides){
+			return this.nbSlides-1;
 		}
+
 		var increment= idx>this.index;
 		var decrement= idx<this.index;
 		var stayOnPage= (idx == this.index);
+
+		if (stayOnPage){
+			return idx;
+		}
 
 		this.index=idx;
 		if (increment){
@@ -59,7 +67,8 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 		}
 
 		this.nextRoute= infosSlidesService[this.index].url;
-		$location.url(this.nextRoute);		
+		$location.url(this.nextRoute);
+		return idx;	
 	}
 
 	this.getIndex= function(){
