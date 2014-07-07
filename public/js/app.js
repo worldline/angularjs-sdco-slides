@@ -65,7 +65,6 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
 .run(['animationManagerService','slidesNavigatorService',
   function(animationManagerService,slidesNavigatorService){
       animationManagerService.init();
-      slidesNavigatorService.init();
   }
 ]);
 

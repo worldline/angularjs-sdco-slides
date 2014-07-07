@@ -7,33 +7,6 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 	this.nbSlides= infosSlidesService.length;
 	this.nextRoute= '/';
 
-	this.init= function(){
-		var that= this;
-/*		$rootScope.$on("$locationChangeStart",
-			function(event, next, previous){
-				if (next == that.nextRoute){
-					//Event throwed by this service, avoid recursive calls
-					return;
-				}else{
-					//url is set manually, Update current index
-					var found= false;
-					jQuery.each(infosSlidesService, function(idx, value){
-						if (next.match(value.url +'$')){
-							found= true;
-							that.index= idx;
-							return;
-						}
-					});
-
-					if (!found){
-						//Should not happen
-						that.index= 0;
-					}
-				}
-			}
-		);*/
-	}
-
 
 	this.increment= function(){
 		this.goToIndex(this.index+1);		

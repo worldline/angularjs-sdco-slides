@@ -21,10 +21,8 @@ angular.module('blogApp')
 				element.on('click',function(){
 					scope.$apply(function(){
 						if (scope.right==true){
-				    		// slideNavigatorService.increment();
 				    		scope.currentIndex++;
 						}else if (scope.left==true){
-				    		// slideNavigatorService.decrement();
 				    		scope.currentIndex--;
 						}
 					});
