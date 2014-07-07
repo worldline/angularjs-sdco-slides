@@ -14,13 +14,5 @@ angular.module('blogApp')
         }
     });
 
-    var getSizes= function(){
-      var windowSize= $window.innerWidth;
-      var bodyMargin= 8;
-      var progressBarWidth= windowSize - 2*bodyMargin - 20;
-    }
-
-    getSizes();
-
   }
 ]);
