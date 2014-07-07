@@ -10,9 +10,17 @@ angular.module('blogApp')
     $scope.$watch('currentIndex', function(newValue, oldValue){
         if (newValue != undefined){
             $scope.currentIndex= slidesNavigatorService.goToIndex(newValue);
-            $log.info('currentIndex: ' + $scope.currentIndex);
         }
     });
+
+    $scope.keypress= function(event){
+      if (event.which === 37){
+        $scope.currentIndex= slidesNavigatorService.decrement();
+      }
+      else if (event.which === 39){
+        $scope.currentIndex= slidesNavigatorService.increment();
+      }
+    }
 
   }
 ]);

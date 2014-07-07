@@ -9,11 +9,11 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 
 
 	this.increment= function(){
-		this.goToIndex(this.index+1);		
+		return this.goToIndex(this.index+1);		
 	}
 
 	this.decrement= function(){
-		this.goToIndex(this.index-1);
+		return this.goToIndex(this.index-1);
 	}
 
 	this.goToIndex= function(idx){

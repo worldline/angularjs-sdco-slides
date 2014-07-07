@@ -23,6 +23,20 @@
 	margin-left: 50px;
 	margin-right: 50px;
 	margin-top: 40px;
-	width: 90%;
+	min-width: 800px;
 	border: 1px solid black;
+}
+
+
+#updatable-progress-bar{
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#updatable-progress-bar .col-sm-11{
+	padding-right: 0px; 
+	padding-left: 0px;
+	margin-left: 50px; 
+	margin-right: 50px; 
+	min-width: 800px;
 }
