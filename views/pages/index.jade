@@ -8,11 +8,14 @@ block append content
         tooltip-field="'url'"
         current-index="currentIndex"
       )
-  a(move-slide left="true" class="left-link" current-index='currentIndex')
-  a(move-slide right="true" class="right-link" current-index='currentIndex')
-  div(
-    ng-view 
-    ng-class="slideClasses" 
-    class="view-content" 
-    id="theView"
-  )
+  div(style="width:100%")
+    a(move-slide left="true" class="left-link" current-index='currentIndex') left
+      
+    div(
+      ng-view 
+      ng-class="slideClasses" 
+      class="view-content" 
+      id="theView"
+    )
+    a(move-slide right="true" class="right-link" current-index='currentIndex') right
+

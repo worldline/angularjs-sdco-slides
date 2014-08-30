@@ -1,21 +1,23 @@
 
 /*Left and right buttons */
  a.left-link{
- 	position:absolute;
+ 	position:relative;
  	left:0px;
  	top:100px;
  	background-image: url("../images/navigate-left-icon3.png");
  	width: 48px;
  	height:48px;
+ 	margin-left: -50px;
  }
 
   a.right-link{
- 	position:absolute;
+ 	position:relative;
  	right:0px;
  	top:100px;  	
  	background-image: url("../images/navigate-right-icon3.png");
  	width: 48px;
  	height:48px;
+ 	margin-right: -50px;
  }
 
 /* view content */
