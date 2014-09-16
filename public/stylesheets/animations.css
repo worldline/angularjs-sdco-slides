@@ -7,8 +7,11 @@
 	transition:all cubic-bezier(0, 0, 0.58, 1.0) 0.75s;
  }
 
-.slide-animate-right.ng-enter {
+/*.slide-animate-right.ng-enter {
  left: 1300px;
+}*/
+.slide-animate-right.ng-enter {
+ left: 100%;
 }
 
 .slide-animate-right.ng-enter.ng-enter-active {
@@ -22,12 +25,12 @@
 
 .slide-animate-right.ng-leave.ng-leave-active {
  position: absolute;
- left: -1700px;
+ left: -100%;
  }
 
 .slide-animate-left.ng-enter {
 	position: absolute;
- 	left: -1300px;
+ 	left: -100%;
 }
 
 .slide-animate-left.ng-enter.ng-enter-active {
@@ -40,7 +43,7 @@
 
 .slide-animate-left.ng-leave.ng-leave-active {
  position: absolute;
- left: 1300px;
+ left: 100%;
  }
 
 

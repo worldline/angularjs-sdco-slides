@@ -1,28 +1,56 @@
 
-/*Left and right buttons */
- a.left-link{
+
+body{
+	font-size: x-large;
+}
+
+/* transverse rules */
+nav > h1{
+	height: 0;
+	margin-left: -1000px;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0;
+}
+
+
+/* NAVIGATION */
+ button.left-link, button.right-link{
  	position:absolute;
- 	left:0px;
  	top:100px;
- 	background-image: url("../images/navigate-left-icon3.png");
  	width: 48px;
  	height:48px;
+  	background: transparent;
+    border: none;
  }
 
-  a.right-link{
- 	position:absolute;
- 	right:0px;
- 	top:100px;  	
+   button.left-link{
+ 	left:0px;	
+ 	background-image: url("../images/navigate-left-icon3.png");
+ }
+
+  button.right-link{
+ 	right:0px; 
  	background-image: url("../images/navigate-right-icon3.png");
- 	width: 48px;
- 	height:48px;
  }
 
 /* view content */
 .view-content{
 	margin-left: 50px;
 	margin-right: 50px;
-	margin-top: 40px;
-	width: 90%;
-	border: 1px solid black;
+	padding: 0 1em 0.5em 1em;
+
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;	
+	border-left: 3px solid #DFDFDF;
+}
+
+.view-content  h1{
+	margin-left: 1em;
+	color:#0040CA;
+
 }
