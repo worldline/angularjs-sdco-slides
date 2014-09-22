@@ -1,5 +1,5 @@
 angular.module('blogApp')
-.directive('moveSlide',[ '$log',
+.directive('sdcoMoveSlide',[ '$log',
 	function($log){
 		return{
 			restrict: 'A',

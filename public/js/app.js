@@ -1,12 +1,12 @@
 
 angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
 //Config routes
-.config(['$routeProvider','infosSlidesService',
-  function($routeProvider, infosSlides){
+.config(['$routeProvider','sdcoInfosSlidesService',
+  function($routeProvider, sdcoInfosSlidesService){
 
       $routeProvider.when('/',{redirectTo:'/slide1'});
 
-      jQuery.each(infosSlides, function(index, value){
+      jQuery.each(sdcoInfosSlidesService, function(index, value){
         $routeProvider
         .when(value.url, {
           templateUrl: value.template
@@ -62,9 +62,9 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
 }])*/
 
 //Init view classes
-.run(['animationManagerService','slidesNavigatorService',
-  function(animationManagerService,slidesNavigatorService){
-      animationManagerService.init();
+.run(['sdcoAnimationManagerService','sdcoSlidesNavigatorService',
+  function(sdcoAnimationManagerService,sdcoSlidesNavigatorService){
+      sdcoAnimationManagerService.init();
   }
 ]);
 

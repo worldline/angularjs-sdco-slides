@@ -7,13 +7,13 @@ block append content
       div(class="col-sm-11" 
         style="width:{{progressBarWidth}}; padding-right: 0px; padding-left: 0px;"
       )
-        updatable-progress-bar(
+        sdco-updatable-progress-bar(
           the-array="slides"
           tooltip-field="'url'"
           current-index="currentIndex"
         )
-    button(move-slide left="true" class="left-link" current-index="currentIndex")
-    button(move-slide right="true" class="right-link" current-index="currentIndex")
+    button(sdco-move-slide left="true" class="left-link" current-index="currentIndex")
+    button(sdco-move-slide right="true" class="right-link" current-index="currentIndex")
   div(
     ng-view 
     ng-class="slideClasses"

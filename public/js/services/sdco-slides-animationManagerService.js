@@ -44,4 +44,4 @@ function animationManager($rootScope){
 
 
 angular.module('blogApp')
-.service('animationManagerService', ['$rootScope', animationManager]);
+.service('sdcoAnimationManagerService', ['$rootScope', animationManager]);

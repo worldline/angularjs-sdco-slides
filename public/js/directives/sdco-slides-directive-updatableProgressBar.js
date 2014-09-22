@@ -1,5 +1,5 @@
 angular.module('blogApp')
-.directive('updatableProgressBar', ['$rootScope',
+.directive('sdcoUpdatableProgressBar', ['$rootScope',
 
 	function($rootScope){
 		return{
@@ -48,7 +48,6 @@ angular.module('blogApp')
 			    }
 
 			    $scope.goToSlide= function(index){
-			      //slidesNavigatorService.goToIndex(index);
 			      $scope.currentIndex= index;
 			    }
 
@@ -79,11 +78,6 @@ angular.module('blogApp')
 			      }
 			      return 0;
 			    }
-
-/*			    $rootScope.$on("$locationChangeStart",
-			      function(event, next, previous){
-			        $scope.currentIndex= slidesNavigatorService.getIndex();
-			    });		*/
 
 			}
 
