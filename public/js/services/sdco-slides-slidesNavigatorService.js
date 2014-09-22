@@ -1,10 +1,10 @@
 
 
 
-function slidesNavigator(infosSlidesService, animationManagerService, $location, $rootScope){
+function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
 	this.index= 0;
-	this.nbSlides= infosSlidesService.length;
+	this.nbSlides= sdcoInfosSlidesService.length;
 	this.nextRoute= '/';
 
 
@@ -34,12 +34,12 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 
 		this.index=idx;
 		if (increment){
-			animationManagerService.applyRight();
+			sdcoAnimationManagerService.applyRight();
 		}else if (decrement){
-			animationManagerService.applyLeft();
+			sdcoAnimationManagerService.applyLeft();
 		}
 
-		this.nextRoute= infosSlidesService[this.index].url;
+		this.nextRoute= sdcoInfosSlidesService[this.index].url;
 		$location.url(this.nextRoute);
 		return idx;	
 	}
@@ -52,5 +52,5 @@ function slidesNavigator(infosSlidesService, animationManagerService, $location,
 
 
 angular.module('blogApp')
-.service('slidesNavigatorService', 
-	['infosSlidesService', 'animationManagerService','$location', '$rootScope', slidesNavigator]);
+.service('sdcoSlidesNavigatorService', 
+	['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', slidesNavigator]);

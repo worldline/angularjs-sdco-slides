@@ -1,7 +1,7 @@
 
 angular.module('blogApp')
 .constant(
-	'infosSlidesService', 
+	'sdcoInfosSlidesService', 
 	(
 		function(){
 

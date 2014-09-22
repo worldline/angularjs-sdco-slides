@@ -1,13 +1,11 @@
 {
-  "name": "myapp",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "sdco-slides",
+  "version": "1.0.0-SNAPSHOT",
+  "main":[""],
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "public/js/libs"
   ],
   "dependencies": {
     "angular": "~1.2.16",
