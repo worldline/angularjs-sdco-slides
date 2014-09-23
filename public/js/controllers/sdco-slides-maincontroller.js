@@ -13,14 +13,5 @@ angular.module('blogApp')
         }
     });
 
-    $scope.keypress= function(event){
-      if (event.which === 37){
-        $scope.currentIndex= sdcoSlidesNavigatorService.decrement();
-      }
-      else if (event.which === 39){
-        $scope.currentIndex= sdcoSlidesNavigatorService.increment();
-      }
-    }
-
   }
 ]);

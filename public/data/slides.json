@@ -10,33 +10,5 @@
 	{
 		"url":"/slide3",
 		"template":"partials/view3"
-	},
-	{
-		"url":"/slide4",
-		"template":"partials/view4"
-	},
-	{
-		"url":"/slide5",
-		"template":"partials/view5"
-	},
-	{
-		"url":"/slide6",
-		"template":"partials/view6"
-	},
-	{
-		"url":"/slide7",
-		"template":"partials/view7"
-	},
-	{
-		"url":"/slide8",
-		"template":"partials/view8"
-	},
-	{
-		"url":"/slide9",
-		"template":"partials/view9"
-	},
-	{
-		"url":"/slide10",
-		"template":"partials/view10"
-	}	
+	}
 ]

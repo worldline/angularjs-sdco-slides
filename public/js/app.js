@@ -4,17 +4,16 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
 .config(['$routeProvider','sdcoInfosSlidesService',
   function($routeProvider, sdcoInfosSlidesService){
 
-      $routeProvider.when('/',{redirectTo:'/slide1'});
+      var firstSlideUrl= sdcoInfosSlidesService[0].url;
 
       jQuery.each(sdcoInfosSlidesService, function(index, value){
         $routeProvider
         .when(value.url, {
-          templateUrl: value.template
+          templateUrl: 'views/' + value.template + '.html'
         });
       });
 
-      $routeProvider.otherwise({redirectTo:'/'});
-
+      $routeProvider.otherwise({redirectTo: firstSlideUrl});
 }])
 /*
 // Define animations
