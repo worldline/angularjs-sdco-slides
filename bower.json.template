@@ -1,6 +1,6 @@
 {
-  "name": "sdco-slides",
-  "version": "1.0.0-SNAPSHOT",
+  "name": "<%= app_name %>",
+  "version": "<%= app_version %>",
   "main":[""],
   "ignore": [
     "**/.*",
@@ -12,6 +12,6 @@
     "angular-bootstrap": "~0.11.0",
     "bootstrap": "~3.2.0",
     "jquery": "~2.1.1",
-    "sdco-editor":" file:///d/work/javascript/angular/perso/sdco-editor/.git"
+    "sdco-editor":"file:///d/work/javascript/angular/perso/codemirror_angular/.git"
   }
 }

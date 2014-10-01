@@ -26,12 +26,12 @@ nav > h1{
 
    button.left-link{
  	left:0px;	
- 	background-image: url("../images/navigate-left-icon3.png");
+ 	background-image: url("../imgs/navigate-left-icon3.png");
  }
 
   button.right-link{
  	right:0px; 
- 	background-image: url("../images/navigate-right-icon3.png");
+ 	background-image: url("../imgs/navigate-right-icon3.png");
  }
 
 /* view content */

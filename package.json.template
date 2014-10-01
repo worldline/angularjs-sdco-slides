@@ -1,0 +1,16 @@
+{
+  "name": "<%= app_name %>",
+  "version": "<%= app_version %>",
+  "private": true,
+  "scripts": {
+    "start": "node server"
+  },
+  "devDependencies": {
+    "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "debug": "~0.7.4",
+    "express": "~4.0.0",
+    "morgan": "~1.0.0",
+    "static-favicon": "~1.0.0"
+  }
+}

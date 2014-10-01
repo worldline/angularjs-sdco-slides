@@ -1,5 +1,5 @@
 angular.module('blogApp')
-.directive('customEventActions',[ '$log',
+.directive('sdcoCustomEventActions',[ '$log',
 	function($log){
 		return{
 			restrict: 'A',
