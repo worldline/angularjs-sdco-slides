@@ -1,5 +1,5 @@
 
-angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoEditorModule'])
+angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 'sdcoEditorModule'])
 //Config routes
 .config(['$routeProvider','sdcoInfosSlidesService',
   function($routeProvider, sdcoInfosSlidesService){

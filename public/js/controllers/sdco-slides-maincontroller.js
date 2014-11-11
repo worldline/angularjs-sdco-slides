@@ -1,7 +1,11 @@
 angular.module('blogApp')
 .controller('sdcoSlidesMaincontroller', 
-  ['$scope', '$rootScope','$window', '$timeout', '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService',
-  function($scope, $rootScope, $window, $timeout, $log, sdcoInfosSlidesService, sdcoSlidesNavigatorService){
+  ['$scope', '$rootScope','$window', '$timeout', 
+   '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService',
+   'codeMirrorService',
+  function($scope, $rootScope, $window, $timeout, $log, 
+            sdcoInfosSlidesService, sdcoSlidesNavigatorService,
+            codeMirrorService){
 
     $scope.slides= sdcoInfosSlidesService;
     $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
@@ -12,6 +16,11 @@ angular.module('blogApp')
             $scope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
         }
     });
+
+    $scope.action= function(){ 
+      codeMirrorService.toDom();
+      codeMirrorService.reset();
+    }
 
   }
 ]);

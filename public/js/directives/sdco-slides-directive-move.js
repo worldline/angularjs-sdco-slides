@@ -6,12 +6,14 @@ angular.module('blogApp')
 			scope:{
 				left:'=left',
 				right:'=right',
-				currentIndex:'='
+				currentIndex:'=',
+				action:'&'
 			},
 			link:function(scope, element, attrs){
 
 				element.on('click',function(){
 					scope.$apply(function(){
+						scope.action();
 						if (scope.right==true){
 				    		scope.currentIndex++;
 						}else if (scope.left==true){

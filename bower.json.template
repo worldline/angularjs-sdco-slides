@@ -13,6 +13,6 @@
     "bootstrap": "~3.2.0",
     "jquery": "~2.1.1",
     "angular-sanitize": "~1.2.23",
-    "sdco-editor":"file:///d/work/javascript/angular/perso/codemirror_angular/.git"
+    "sdco-editor":"file:///home/rageice/work/javascript/angular/sdco-editor/.git"
   }
 }

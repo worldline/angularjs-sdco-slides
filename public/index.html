@@ -29,8 +29,15 @@
 				/>
 				</div>
 			</div>
-			<button sdco-move-slide left="true" class="left-link" current-index="currentIndex" />
-			<button sdco-move-slide right="true" class="right-link" current-index="currentIndex" />
+			<button sdco-move-slide 
+				left="true" class="left-link" 
+				current-index="currentIndex" 
+			/>
+			<button sdco-move-slide 
+				right="true" class="right-link" 
+				current-index="currentIndex" 
+				action="action()"
+			/>
 		</nav>
 		<div ng-view ng-class="slideClasses" class="view-content"></div>
 
@@ -41,7 +48,8 @@
     	<script src="js/libs/angular-route/angular-route.js" type="text/javascript"></script>
     	<script src="js/libs/angular-animate/angular-animate.js" type="text/javascript"></script>
     	<script src="js/libs/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
-    	<script src="js/libs/sdco-editor/dist/js/sdco-editor-min.js" type="text/javascript"></script>
+    	<script src="js/libs/sdco-utils/dist/js/sdco-utils-min.js" type="text/javascript"></script>
+    	<script src="js/libs/sdco-editor/dist/js/sdco-editor.js" type="text/javascript"></script>
     	<script src="js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
     	<script src="js/app.js" type="text/javascript"></script>
     	<script src="js/services/sdco-slides-infosSlidesService.js" type="text/javascript"></script>
