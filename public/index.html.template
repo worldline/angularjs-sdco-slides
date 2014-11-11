@@ -38,7 +38,10 @@
     	<script src="js/libs/angular/angular.js" type="text/javascript"></script>
     	<script src="js/libs/angular-route/angular-route.js" type="text/javascript"></script>
     	<script src="js/libs/angular-animate/angular-animate.js" type="text/javascript"></script>
+ 		<script src="js/libs/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
+    	<script src="js/libs/sdco-editor/dist/js/sdco-editor-min.js" type="text/javascript"></script>    	
     	<script src="js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
+
     	<script src="<%= app_js %>" type="text/javascript"></script>
 	</body>
 
