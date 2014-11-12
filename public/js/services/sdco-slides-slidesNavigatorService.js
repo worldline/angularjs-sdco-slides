@@ -3,7 +3,6 @@
 
 function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
-	this.index= 0;
 	this.nbSlides= sdcoInfosSlidesService.length;
 	this.nextRoute= '/';
 
@@ -47,6 +46,21 @@ function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $l
 	this.getIndex= function(){
 		return this.index;
 	}
+
+	this.getIndexFromUrl= function(url){
+
+		for (var idx in sdcoInfosSlidesService){
+			var current= sdcoInfosSlidesService[idx];
+			if (current.url == url){
+				return parseInt(idx);
+			}
+		}
+
+		return 0;
+	}
+
+	//initialize index
+	this.index= this.getIndexFromUrl($location.url());
 
 }
 

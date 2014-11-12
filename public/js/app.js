@@ -1,8 +1,8 @@
 
 angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 'sdcoEditorModule'])
 //Config routes
-.config(['$routeProvider','sdcoInfosSlidesService',
-  function($routeProvider, sdcoInfosSlidesService){
+.config(['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'codeMirrorServiceProvider',
+  function($routeProvider, $locationProvider, sdcoInfosSlidesService, codeMirrorServiceProvider){
 
       var firstSlideUrl= sdcoInfosSlidesService[0].url;
 
@@ -14,6 +14,9 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 
       });
 
       $routeProvider.otherwise({redirectTo: firstSlideUrl});
+      $locationProvider.html5Mode(false);
+
+      codeMirrorServiceProvider.isStorageActive= true;
 }])
 /*
 // Define animations
