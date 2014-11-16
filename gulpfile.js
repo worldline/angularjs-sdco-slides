@@ -10,8 +10,8 @@ var gulp= require('gulp'),
 	gulpif = require('gulp-if'),
 	debug= require('gulp-debug'),
 	gfilter= require('gulp-filter'),
+	mbf = require('main-bower-files'),
 	myutils= require('./gulp-more/utils.js');
-
 
 
 gulp.task('checkFlags', function(cb){
@@ -30,8 +30,8 @@ gulp.task('clean', ['checkFlags'], function(cb){
 });
 
 
-//Place all needed files  them in the dist folder
-gulp.task('getResources', ['clean'], function(cb){
+//Place all application files in the dist folder
+gulp.task('getAppResources', ['clean'], function(cb){
 
 
 	//RETRIEVE STANDARD AND TEMPLATED GLOBS, 
@@ -69,8 +69,28 @@ gulp.task('getResources', ['clean'], function(cb){
 
 });
 
+//Add bower resources as well
+gulp.task('getBowerResources', ['clean'], function(){
+	
+	var jsFilter= gfilter('**/*.js'),
+		cssFilter= gfilter('**/*.css');
+
+	return gulp.src(mbf())
+	.pipe(jsFilter)
+	.pipe(debug({title:'bower js'}))
+	.pipe(concat(myutils.getTemplateOpts()['ext_js']))
+	.pipe(gulp.dest(myutils.destFolder + '/public/' ))
+	.pipe(jsFilter.restore())
+	.pipe(cssFilter)
+	.pipe(concat(myutils.getTemplateOpts()['ext_stylesheets']))
+	.pipe(gulp.dest(myutils.destFolder + '/public' ));
+});
+
+
+
+
 //Remove templates or replace original files by template ones
-gulp.task('applyOrRemoveTemplates', ['getResources'], function(cb){
+gulp.task('applyOrRemoveTemplates', ['getAppResources', 'getBowerResources'], function(cb){
 
 	var stillReplaceResourcesFilter= gfilter(['**/index.html.template', 'package.json.template']),
 		remainingResourcesFilter= gfilter(['**/*.template', '!index.html.template', '!package.json.template']);

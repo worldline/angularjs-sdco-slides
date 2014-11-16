@@ -1,6 +1,7 @@
 
 
-var argv= require('yargs').argv;
+var argv= require('yargs').argv,
+	fs= require('fs');
 
 //MANDATORY FLAG
 var acceptableFlags=['standalone', 'template'];
@@ -16,11 +17,17 @@ var templatekeywords={
 	appTitle:{ tag:'app_title', defaultValue:'appTitle' },
 	appVersion:{ tag:'app_version', defaultValue:'1.0.0' },
 	appStylesheets:{ tag: 'app_stylesheets', defaultValue: 'styles/sdco-slides.css'},
-	appServices:{tag:'app_js', defaultValue: 'js/sdco-slides.js' }
+	appServices:{tag:'app_js', defaultValue: 'js/sdco-slides.js' },
+	appExtStylesheets:{tag:'ext_stylesheets', defaultValue: 'js/libs/ext.css'},
+	appExtJs:{tag:'ext_js', defaultValue: 'js/libs/ext.js'}
+}
+
+var requireJSON= function (filePath) {
+		return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
 
-module.exports= {
+var myutilmodule= {
 
 	destFolder: destFolder,
 
@@ -40,13 +47,13 @@ module.exports= {
 		js:'/public/js/',
 		styles:'/public/styles/',
 		index:'/public/index.html',
-		npm_package:'/package.json'
+		npm_package:'/package.json',
 	},
 
 	globalGlobs: [
 		'**/*.template','**/*.js','**/*.css', 
 		'**/*.jpg', '**/*.png', '**/*.gif', 
-		'**/*.html', '**/*.json', 'bower.json', 'package.json',
+		'**/*.html', '**/*.json', 'package.json',
 		'!dist', '!public/js/libs/**/*'
 	],
 
@@ -69,8 +76,7 @@ module.exports= {
 			dataGlobs: [
 				'public/data/slides.json' ],
 			resources: [ 
-				'public/**/*.html', 'public/imgs/*', 'bower.json', 
-				'.bowerrc', 'package.json', 'server.js' ]
+				'public/**/*.html', 'public/imgs/*',  'package.json', 'server.js']
 		}
 
 		if (templatedOnly){
@@ -91,6 +97,15 @@ module.exports= {
 
 		// console.log(res);
 		return res;
+	},
+
+	bowerrc: requireJSON('.bowerrc'),
+
+	getBowerBaseFolder: function(){
+		return this.bowerrc.directory;
 	}
 
 }
+
+
+module.exports= myutilmodule;
