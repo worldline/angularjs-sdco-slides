@@ -7,8 +7,12 @@ angular.module('blogApp')
             sdcoInfosSlidesService, sdcoSlidesNavigatorService,
             codeMirrorService){
 
-    $scope.slides= sdcoInfosSlidesService;
+    $scope.slides= sdcoInfosSlidesService.templates;
     $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
+    sdcoSlidesNavigatorService.indexCallback= function(index){
+      $scope.currentIndex= index;
+    }
+
 
     //Watch currentIndex to go to the specified slide
     $scope.$watch('currentIndex', function(newValue, oldValue){

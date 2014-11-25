@@ -36,15 +36,10 @@ angular.module('blogApp')
 			</progress>',
 			link:function($scope, element, attrs){
 
-				console.log($scope.theArray);
-				console.log($scope.tooltipField);
-				console.log($scope.currentIndex);
-
-				// console.log('coucou');
+				//console.log($scope.currentIndex);
 
 			    $scope.getTooltip= function(index){
-			      var slide= $scope.theArray[index];
-			      return (index +1) + ' (' + slide[$scope.tooltipField] + ') ';
+			    	return 'slide' + (index + 1) + '(' + $scope.theArray[index] + ')';
 			    }
 
 			    $scope.goToSlide= function(index){

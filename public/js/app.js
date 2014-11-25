@@ -4,13 +4,13 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 
 .config(['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'codeMirrorServiceProvider',
   function($routeProvider, $locationProvider, sdcoInfosSlidesService, codeMirrorServiceProvider){
 
-      var firstSlideUrl= sdcoInfosSlidesService[0].url;
+      var baseTemplate= 'views/' + sdcoInfosSlidesService['templatesBase'] + '/';
+      var firstSlideUrl= '/slide1';
 
-      jQuery.each(sdcoInfosSlidesService, function(index, value){
-        $routeProvider
-        .when(value.url, {
-          templateUrl: 'views/' + value.template + '.html'
-        });
+      jQuery.each(sdcoInfosSlidesService['templates'], function(index, value){
+        var url= '/slide' + (index+1),
+            template= baseTemplate + value + '.html';
+        $routeProvider.when( url, {templateUrl: template });
       });
 
       $routeProvider.otherwise({redirectTo: firstSlideUrl});
@@ -18,6 +18,17 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 
 
       codeMirrorServiceProvider.isStorageActive= true;
 }])
+//Init view classes
+.run(['sdcoAnimationManagerService','sdcoSlidesNavigatorService',
+  function(sdcoAnimationManagerService,sdcoSlidesNavigatorService){
+      sdcoAnimationManagerService.init();
+      sdcoSlidesNavigatorService.init();
+  }
+]);
+
+
+
+
 /*
 // Define animations
 .animation('.slide-animate-left',['$window',function($window){
@@ -62,14 +73,3 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 
     },
   }
 }])*/
-
-//Init view classes
-.run(['sdcoAnimationManagerService','sdcoSlidesNavigatorService',
-  function(sdcoAnimationManagerService,sdcoSlidesNavigatorService){
-      sdcoAnimationManagerService.init();
-  }
-]);
-
-
-
-
