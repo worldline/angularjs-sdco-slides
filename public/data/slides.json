@@ -1,14 +1,11 @@
-[
-	{
-		"url":"/slide1",
-		"template":"partials/view1"
-	},
-	{
-		"url":"/slide2",
-		"template":"partials/view2"
-	},
-	{
-		"url":"/slide3",
-		"template":"partials/view3"
-	}
-]
+{
+	"templatesBase": "partials",
+	"templates":[
+		"view1", 
+		"view2", 
+		"view3", 
+		"editor_demo", 
+		"angular_sample"
+	]
+
+}
