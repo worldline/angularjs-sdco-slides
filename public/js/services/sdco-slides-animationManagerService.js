@@ -1,6 +1,4 @@
 
-
-
 function animationManager($rootScope){
 
 	this.animationsClasses=['slide-animate'];

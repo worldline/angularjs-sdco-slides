@@ -1,4 +1,4 @@
-angular.module('blogApp')
+angular.module('<%= app_name %>')
 .directive('sdcoNotes',[ '$log', '$modal', '$location', 'sdcoNotesService',
 	function($log, $modal, $location, sdcoNotesService){
 

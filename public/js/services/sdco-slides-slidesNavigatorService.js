@@ -1,6 +1,4 @@
 
-
-
 function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
 	this.nbSlides= sdcoInfosSlidesService.templates.length;

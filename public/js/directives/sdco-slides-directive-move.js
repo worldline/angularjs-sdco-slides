@@ -23,7 +23,5 @@ angular.module('blogApp')
 				});
 			}
 		}
-
 	}
-
 ]);

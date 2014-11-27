@@ -1,11 +1,9 @@
 
-
-
 function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
-	this.index= 0;
-	this.nbSlides= sdcoInfosSlidesService.length;
+	this.nbSlides= sdcoInfosSlidesService.templates.length;
 	this.nextRoute= '/';
+	this.indexCallback= undefined;
 
 
 	this.increment= function(){
@@ -39,7 +37,7 @@ function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $l
 			sdcoAnimationManagerService.applyLeft();
 		}
 
-		this.nextRoute= sdcoInfosSlidesService[this.index].url;
+		this.nextRoute= 'slide' + (this.index+1);
 		$location.url(this.nextRoute);
 		return idx;	
 	}
@@ -47,6 +45,40 @@ function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $l
 	this.getIndex= function(){
 		return this.index;
 	}
+
+	this.getIndexFromUrl= function(url){
+		// angular.forEach(sdcoInfosSlidesService.templates, function(index, value){
+		// 	if ()
+		// });
+		var regex=/slide\d/i;
+		var matches= url.match(regex);
+		if (matches){
+			return parseInt(matches[0].substring(matches[0].length - 1)) -1;
+		}
+		return 0;
+	}
+
+	this.init= function(){
+		var that= this;
+
+		//initialize index
+		that.index= this.getIndexFromUrl($location.url());
+
+		//Update index when url changes
+		$rootScope.$on('$locationChangeStart', function(event, next, current){
+			if (next === current){
+				return;
+			}
+			var newIndex= that.getIndexFromUrl(next);
+			if (newIndex != that.index){
+				newIndex= that.goToIndex(newIndex);
+				that.indexCallback && that.indexCallback(newIndex);
+			}
+		});
+		
+	}
+
+
 
 }
 

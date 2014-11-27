@@ -18,8 +18,8 @@ var templatekeywords={
 	appVersion:{ tag:'app_version', defaultValue:'1.0.0' },
 	appStylesheets:{ tag: 'app_stylesheets', defaultValue: 'styles/sdco-slides.css'},
 	appServices:{tag:'app_js', defaultValue: 'js/sdco-slides.js' },
-	appExtStylesheets:{tag:'ext_stylesheets', defaultValue: 'js/libs/ext.css'},
-	appExtJs:{tag:'ext_js', defaultValue: 'js/libs/ext.js'}
+	appExtStylesheets:{tag:'ext_stylesheets', defaultValue: 'styles/ext.css'},
+	appExtJs:{tag:'ext_js', defaultValue: 'js/ext.js'}
 }
 
 var requireJSON= function (filePath) {
@@ -76,7 +76,8 @@ var myutilmodule= {
 			dataGlobs: [
 				'public/data/slides.json' ],
 			resources: [ 
-				'public/**/*.html', 'public/imgs/*',  'package.json', 'server.js']
+				'public/favicon.ico', 'public/**/*.html', 
+				'public/imgs/*',  'package.json', 'server.js']
 		}
 
 		if (templatedOnly){

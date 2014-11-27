@@ -19,10 +19,11 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 
       codeMirrorServiceProvider.isStorageActive= true;
 }])
 //Init view classes
-.run(['sdcoAnimationManagerService','sdcoSlidesNavigatorService',
-  function(sdcoAnimationManagerService,sdcoSlidesNavigatorService){
+.run(['sdcoAnimationManagerService','sdcoSlidesNavigatorService','sdcoNotesService',
+  function(sdcoAnimationManagerService,sdcoSlidesNavigatorService, sdcoNotesService){
       sdcoAnimationManagerService.init();
       sdcoSlidesNavigatorService.init();
+      sdcoNotesService.init();
   }
 ]);
 

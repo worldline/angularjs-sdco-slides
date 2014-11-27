@@ -73,17 +73,22 @@ gulp.task('getAppResources', ['clean'], function(cb){
 gulp.task('getBowerResources', ['clean'], function(){
 	
 	var jsFilter= gfilter('**/*.js'),
-		cssFilter= gfilter('**/*.css');
+		cssFilter= gfilter('**/*.css'),
+		imgsFilter= gfilter(['**/*.png', '**/*.jpg']);
 
 	return gulp.src(mbf())
 	.pipe(jsFilter)
-	.pipe(debug({title:'bower js'}))
 	.pipe(concat(myutils.getTemplateOpts()['ext_js']))
 	.pipe(gulp.dest(myutils.destFolder + '/public/' ))
 	.pipe(jsFilter.restore())
 	.pipe(cssFilter)
 	.pipe(concat(myutils.getTemplateOpts()['ext_stylesheets']))
-	.pipe(gulp.dest(myutils.destFolder + '/public' ));
+	.pipe(debug({title:'bower imgs'}))
+	.pipe(gulp.dest(myutils.destFolder + '/public' ))
+	.pipe(cssFilter.restore())
+	.pipe(imgsFilter)
+	.pipe(gulp.dest(myutils.destFolder + '/public/imgs/'));
+
 });
 
 
@@ -121,8 +126,13 @@ gulp.task('applyOrRemoveTemplates', ['getAppResources', 'getBowerResources'], fu
 gulp.task('minifyJs', ['applyOrRemoveTemplates'], function () {
 
 	var target_name='sdco-slides';
+	var jsPath= myutils.destFolder + myutils.appPathes.js,
+		toInclude= jsPath + '*.js',
+		toExclude= '!' + jsPath + 'ext.js',
+		globs= [toInclude, toExclude];
 
-    gulp.src(myutils.destFolder + myutils.appPathes.js + '*.js') 
+
+    gulp.src(globs) 
     .pipe(clean())
     .pipe(concat( target_name + '.js'))
     .pipe(gulp.dest( myutils.destFolder + myutils.appPathes.js)) //not minified
@@ -134,8 +144,12 @@ gulp.task('minifyJs', ['applyOrRemoveTemplates'], function () {
 //minify css
 gulp.task('minifyCss',  ['applyOrRemoveTemplates'], function () {
 	var target_name= 'sdco-slides';
+	var cssPath= myutils.destFolder + myutils.appPathes.styles,
+		toInclude= cssPath + '*.css',
+		toExclude= '!' + cssPath + 'ext.css',
+		globs= [toInclude, toExclude];
 
-    gulp.src(myutils.destFolder + myutils.appPathes.styles + '*.css')
+    gulp.src(globs)
     .pipe(clean())
     .pipe(concat(target_name + '.css'))
     .pipe(gulp.dest( myutils.destFolder + myutils.appPathes.styles)) //not minified
