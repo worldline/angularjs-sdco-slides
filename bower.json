@@ -1,10 +1,14 @@
 {
   "name": "sdco-slides",
   "version": "1.0.0-SNAPSHOT",
-  "main":[],
-  "overrides":{
-    "codemirror":{
-      "main":["lib/codemirror.js", "mode/javascript/javascript.js", "lib/codemirror.css"]
+  "main": [],
+  "overrides": {
+    "codemirror": {
+      "main": [
+        "lib/codemirror.js",
+        "mode/javascript/javascript.js",
+        "lib/codemirror.css"
+      ]
     }
   },
   "ignore": [
@@ -13,12 +17,16 @@
     "public/js/libs"
   ],
   "dependencies": {
-    "angular-animate": "~1.2.16",
-    "angular-bootstrap": "~0.11.0",
-    "bootstrap": "~3.2.0",
-    "jquery": "~2.1.1",
-    "angular-sanitize": "~1.2.23",
-    "sdco-utils":"file:///d/work/javascript/angular/perso/sdco-utils/.git",
-    "sdco-editor":"file:///d/work/javascript/angular/perso/sdco-editor/.git"
+    "angular": "1.3.0",
+    "angular-route": "1.3.0",
+    "angular-sanitize": "1.3.0",
+    "angular-animate": "1.3.0",
+    "angular-bootstrap": "0.12.0",
+    "bootstrap": "3.3.1",
+    "jquery": "2.1.1",
+    "sdco-tools": "file:///d/work/javascript/angular/perso/sdco-tools/.git"
+  },
+  "resolutions": {
+    "angular": "1.3.0"
   }
 }

@@ -1,8 +1,8 @@
 
-angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 'sdcoEditorModule'])
+angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdco-tools'])
 //Config routes
-.config(['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'codeMirrorServiceProvider',
-  function($routeProvider, $locationProvider, sdcoInfosSlidesService, codeMirrorServiceProvider){
+.config(['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'sdcoEditorServiceProvider',
+  function($routeProvider, $locationProvider, sdcoInfosSlidesService, sdcoEditorServiceProvider){
 
       var baseTemplate= 'views/' + sdcoInfosSlidesService['templatesBase'] + '/';
       var firstSlideUrl= '/slide1';
@@ -16,7 +16,7 @@ angular.module('blogApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'sdcoUtils', 
       $routeProvider.otherwise({redirectTo: firstSlideUrl});
       $locationProvider.html5Mode(false);
 
-      codeMirrorServiceProvider.isStorageActive= true;
+      sdcoEditorServiceProvider.isStorageActive= true;
 }])
 //Init view classes
 .run(['sdcoAnimationManagerService','sdcoSlidesNavigatorService','sdcoNotesService',

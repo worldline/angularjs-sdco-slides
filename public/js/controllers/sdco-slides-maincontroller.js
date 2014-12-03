@@ -2,10 +2,10 @@ angular.module('blogApp')
 .controller('sdcoSlidesMaincontroller', 
   ['$scope', '$rootScope','$window', '$timeout', 
    '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService',
-   'codeMirrorService',
+   'sdcoEditorService',
   function($scope, $rootScope, $window, $timeout, $log, 
             sdcoInfosSlidesService, sdcoSlidesNavigatorService,
-            codeMirrorService){
+            sdcoEditorService){
 
     $scope.slides= sdcoInfosSlidesService.templates;
     $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
@@ -22,8 +22,8 @@ angular.module('blogApp')
     });
 
     $scope.action= function(){ 
-      codeMirrorService.toDom();
-      codeMirrorService.reset();
+      sdcoEditorService.toDom();
+      sdcoEditorService.reset();
     }
 
   }
