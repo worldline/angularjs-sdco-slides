@@ -48,13 +48,10 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 	};
 
 	this.getIndexFromUrl= function(url){
-		// angular.forEach(sdcoInfosSlidesService.templates, function(index, value){
-		// 	if ()
-		// });
-		var regex=/slide\d/i;
+		var regex=/\d+/;
 		var matches= url.match(regex);
 		if (matches){
-			return parseInt(matches[0].substring(matches[0].length - 1)) -1;
+			return parseInt(matches[0]) -1;
 		}
 		return 0;
 	};
@@ -63,14 +60,14 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 		var that= this;
 
 		//initialize index
-		that.index= this.getIndexFromUrl($location.url());
+		that.index= this.getIndexFromUrl($location.path());
 
 		//Update index when url changes
-		$rootScope.$on('$locationChangeStart', function(event, next, current){
+		$rootScope.$on('$routeChangeStart', function(event, next, current){
 			if (next === current){
 				return;
 			}
-			var newIndex= that.getIndexFromUrl(next);
+			var newIndex= that.getIndexFromUrl($location.path());
 			if (newIndex != that.index){
 				newIndex= that.goToIndex(newIndex);
 				if (that.indexCallback){
