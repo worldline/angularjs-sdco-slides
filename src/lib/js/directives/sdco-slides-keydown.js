@@ -1,4 +1,4 @@
-angular.module('slides')
+angular.module('sdco-slides.directives')
 .directive('sdcoSlidesKeydown',[ '$log',
 	function($log){
 		return{

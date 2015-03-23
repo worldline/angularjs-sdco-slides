@@ -1,4 +1,4 @@
-angular.module('slidesSample', ['slides'])
+angular.module('slidesSample', ['sdco-slides'])
 //Config routes
 .config(['slidesConfigProvider',
   function(slidesConfigProvider){

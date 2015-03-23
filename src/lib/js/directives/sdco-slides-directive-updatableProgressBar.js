@@ -1,4 +1,4 @@
-angular.module('slides')
+angular.module('sdco-slides.directives')
 .directive('sdcoUpdatableProgressBar', ['$rootScope',
 
 	function($rootScope){
@@ -37,43 +37,43 @@ angular.module('slides')
 
 			    $scope.getTooltip= function(index){
 			    	return 'slide' + (index + 1) + '(' + $scope.theArray[index] + ')';
-			    }
+			    };
 
 			    $scope.goToSlide= function(index){
 			      $scope.currentIndex= index;
-			    }
+			    };
 
 			    $scope.getSuccessSlides= function(){
 			      var start= 0;
 			      var end= $scope.currentIndex+1;
 			      $scope.sucesSlides= $scope.theArray.slice(start,end);
 			      return $scope.sucesSlides;
-			    }
+			    };
 
 			    $scope.getDangerSlides= function(){
 			      var start= $scope.currentIndex+1;
 			      var end= $scope.length;
 			      $scope.dangerSlides= $scope.theArray.slice(start,end);
 			      return $scope.dangerSlides;
-			    }
+			    };
 
 			    $scope.getSuccessElementsSize= function(){
 			      if ($scope.sucesSlides){
 			        return 100/$scope.sucesSlides.length + '%';
 			      }
 			      return 0;
-			    }
+			    };
 
 			    $scope.getDangerElementsSize= function(){
 			      if ($scope.sucesSlides){
 			        return 100/$scope.dangerSlides.length + '%';
 			      }
 			      return 0;
-			    }
+			    };
 
 			}
 
-		}
+		};
 	}
 
 

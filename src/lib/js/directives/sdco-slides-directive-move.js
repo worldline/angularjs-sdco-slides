@@ -1,4 +1,4 @@
-angular.module('slides')
+angular.module('sdco-slides.directives')
 .directive('sdcoMoveSlide',[ '$log',
 	function($log){
 		return{
@@ -15,14 +15,14 @@ angular.module('slides')
 					e.preventDefault();
 					scope.$apply(function(){
 						scope.action();
-						if (scope.right==true){
+						if (scope.right===true){
 				    		scope.currentIndex++;
-						}else if (scope.left==true){
+						}else if (scope.left===true){
 				    		scope.currentIndex--;
 						}
 					});
 				});
 			}
-		}
+		};
 	}
 ]);

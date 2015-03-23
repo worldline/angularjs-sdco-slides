@@ -1,5 +1,4 @@
-
-angular.module('slides')
+angular.module('sdco-slides.services')
 .constant(
 	'sdcoInfosSlidesService', 
 	(

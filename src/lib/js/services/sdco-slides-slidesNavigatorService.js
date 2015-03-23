@@ -1,4 +1,4 @@
-angular.module('slides')
+angular.module('sdco-slides.services')
 .service('sdcoSlidesNavigatorService', ['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', 
 function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
@@ -9,11 +9,11 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 
 	this.increment= function(){
 		return this.goToIndex(this.index+1);		
-	}
+	};
 
 	this.decrement= function(){
 		return this.goToIndex(this.index-1);
-	}
+	};
 
 	this.goToIndex= function(idx){
 		if (idx<0){
@@ -41,11 +41,11 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 		this.nextRoute= 'slide' + (this.index+1);
 		$location.url(this.nextRoute);
 		return idx;	
-	}
+	};
 
 	this.getIndex= function(){
 		return this.index;
-	}
+	};
 
 	this.getIndexFromUrl= function(url){
 		// angular.forEach(sdcoInfosSlidesService.templates, function(index, value){
@@ -57,7 +57,7 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 			return parseInt(matches[0].substring(matches[0].length - 1)) -1;
 		}
 		return 0;
-	}
+	};
 
 	this.init= function(){
 		var that= this;
@@ -73,11 +73,13 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 			var newIndex= that.getIndexFromUrl(next);
 			if (newIndex != that.index){
 				newIndex= that.goToIndex(newIndex);
-				that.indexCallback && that.indexCallback(newIndex);
+				if (that.indexCallback){
+					that.indexCallback(newIndex);
+				}
 			}
 		});
 		
-	}
+	};
 
 
 

@@ -1,4 +1,4 @@
-angular.module('slides')
+angular.module('sdco-slides.services')
 .provider('slidesConfig', ['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'sdcoEditorServiceProvider',
 	function($routeProvider, $locationProvider, sdcoInfosSlidesService, sdcoEditorServiceProvider){
 
@@ -15,7 +15,7 @@ angular.module('slides')
 
 		var firstSlideUrl;
 
-		angular.forEach(sdcoInfosSlidesService['templates'], function(value, index){
+		angular.forEach(sdcoInfosSlidesService.templates, function(value, index){
 			var url= '/slide' + (index+1),
 		    template= config.templatesRootPath + value + '.html';
 		    if (index === 0){
@@ -43,7 +43,7 @@ angular.module('slides')
 				sdcoAnimationManagerService.init();
 				sdcoSlidesNavigatorService.init();
 				sdcoNotesService.init();		
-			}
+			};
 
 		};
 

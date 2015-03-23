@@ -1,4 +1,4 @@
-angular.module('slides')
+angular.module('sdco-slides.directives')
 .directive('sdcoSlidescontainer', ['$rootScope','$window', '$timeout', 
    '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
    function($rootScope, $window, $timeout, $log, sdcoInfosSlidesService, 
@@ -53,7 +53,7 @@ angular.module('slides')
 
 		    //Watch currentIndex to go to the specified slide
 		    $scope.$watch('currentIndex', function(newValue, oldValue){
-		        if (newValue != undefined){
+		        if (newValue !== undefined){
 		            $scope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
 		        }
 		    });

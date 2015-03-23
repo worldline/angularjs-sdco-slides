@@ -1,0 +1,1 @@
+angular.module('sdco-slides.services', ['ngRoute','ngAnimate', 'ngSanitize','ui.bootstrap','sdco-tools']);

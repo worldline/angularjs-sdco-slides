@@ -1,178 +1,155 @@
-// including plugins
+
 var gulp= require('gulp'),
-	gutil = require('gulp-util'),
-	uglify= require("gulp-uglify"),
-	cssmin= require("gulp-minify-css"),
-	concat= require("gulp-concat"),
-	rename= require("gulp-rename"),
-	clean = require('gulp-clean'),
-	template= require('gulp-template'),
-	gulpif = require('gulp-if'),
-	debug= require('gulp-debug'),
-	gfilter= require('gulp-filter'),
-	mbf = require('main-bower-files'),
-	myutils= require('./gulp-more/utils.js');
+  debug= require('gulp-debug'),
+  gutil= require('gulp-util'),
+	karma = require('gulp-karma'),
+  rimraf= require('gulp-rimraf'),
+  jshint= require('gulp-jshint'),
+  jshintStylish= require('jshint-stylish'),
+  uglify= require('gulp-uglify'),
+  cssmin= require('gulp-minify-css'),
+  concat= require('gulp-concat'),
+  mbf= require('main-bower-files'),
+  addSrc= require('gulp-add-src'),
+  gfilter= require('gulp-filter'),
+  rename= require('gulp-rename'),
+  protractor= require('gulp-protractor').protractor,
+  webdriver_standalone = require('gulp-protractor').webdriver_standalone,
+  webdriver_update = require('gulp-protractor').webdriver_update,
+  myUtils= require(__dirname + '/more/gulp/utils'),
+  server= myUtils.getServer();
 
+var appJsGlobs=['src/lib/js/**/*.js'],
+    unitTestJsGlobs=['test/unit/utils.js','test/unit/**/*Spec.js'],
+    e2eJsGlobs= ['test/e2e/**/*.js'],
+    appCssGlobs= ['src/lib/styles/**/*.css'],
+    appImages= ['src/lib/imgs/**/*'];
 
-gulp.task('checkFlags', function(cb){
+var target='dist',
+    targetAppName= myUtils.getPackage().name;
 
-	if (! myutils.checkFlags()){
-		gutil.log(gutil.colors.red(myutils.checkFlagsMessage()));
-		cb('please check your flags...');
-	}
+/**
+* When used, this task launches the selenium
+* server and let it run indefinitely
+*/
 
-	cb();
-})
+gulp.task('webdriver_update', webdriver_update);
+gulp.task('webdriver_standalone', webdriver_standalone);
 
-//clean dist/(type) folder
-gulp.task('clean', ['checkFlags'], function(cb){
-	return gulp.src(myutils.destFolder, {read: false}).pipe(clean());
+gulp.task('express', function(cb){
+  server.listen(8080, cb);
 });
 
 
-//Place all application files in the dist folder
-gulp.task('getAppResources', ['clean'], function(cb){
+gulp.task('test-unit', function() {
 
+  //Check files to test
+  var filesToTest= myUtils.getFilesForPatterns(unitTestJsGlobs);
+  if (filesToTest===undefined || filesToTest.length===0){
+    return;
+  }
 
-	//RETRIEVE STANDARD AND TEMPLATED GLOBS, 
-	// WILL BE USED AS FILTERS ON THE GLOBAL GLOBS
-	var globs= myutils.getGlobsByType(false),
-		templatedGlobs= myutils.getGlobsByType(true);
-
-	//CONCATENATE THEM BY TYPE
-	var jsFilter= gfilter(globs.jsGlobs.concat(templatedGlobs.jsGlobs)),
-		cssFilter= gfilter(globs.cssGlobs.concat(templatedGlobs.cssGlobs)),
-		resourcesFilter= gfilter(globs.resources.concat(templatedGlobs.resources)),
-		dataFilter= gfilter(globs.dataGlobs.concat(templatedGlobs.dataGlobs));
-
-	var imgsExtensions= ['.jpg', '.png', '.gif'];
-
-	return gulp.src(myutils.globalGlobs)
-	// .pipe(debug({title:'allREsources:'}))
-	.pipe(jsFilter) //JS
-	.pipe(rename(function(path){path.dirname=''}))
-	// .pipe(debug({title:'## JS ##'}))
-	.pipe(gulp.dest(myutils.destFolder + myutils.appPathes.js))
-	.pipe(jsFilter.restore())
-	.pipe(cssFilter) //CSS
-	.pipe(rename(function(path){path.dirname=''}))
-	// .pipe(debug({title:'## CSS ##'}))
-	.pipe(gulp.dest(myutils.destFolder + myutils.appPathes.styles))
-	.pipe(cssFilter.restore())
-	.pipe(resourcesFilter) //RESOURCES
-	// .pipe(debug({title:'## RESOURCES ##'}))
-	.pipe(gulp.dest(myutils.destFolder))
-	.pipe(resourcesFilter.restore())
-	.pipe(dataFilter) // DATA
-	// .pipe(debug())
-	.pipe(gulp.dest(myutils.destFolder));
-
-});
-
-//Add bower resources as well
-gulp.task('getBowerResources', ['clean'], function(){
-	
-	var jsFilter= gfilter('**/*.js'),
-		cssFilter= gfilter('**/*.css'),
-		imgsFilter= gfilter(['**/*.png', '**/*.jpg']);
-
-	return gulp.src(mbf())
-	.pipe(jsFilter)
-	.pipe(concat(myutils.getTemplateOpts()['ext_js']))
-	.pipe(gulp.dest(myutils.destFolder + '/public/' ))
-	.pipe(jsFilter.restore())
-	.pipe(cssFilter)
-	.pipe(concat(myutils.getTemplateOpts()['ext_stylesheets']))
-	.pipe(debug({title:'bower imgs'}))
-	.pipe(gulp.dest(myutils.destFolder + '/public' ))
-	.pipe(cssFilter.restore())
-	.pipe(imgsFilter)
-	.pipe(gulp.dest(myutils.destFolder + '/public/imgs/'));
-
+  var jsFilter= gfilter('**/*.js');
+  
+  //Stream all devDependencies js referenced by bower
+  return gulp.src(mbf({includeDev:'exclusive'}))
+  //Stream all dependencies js referenced by bower
+  .pipe(addSrc.append(mbf()))
+  .pipe(jsFilter)
+  //Then add application specific js
+  .pipe(addSrc.append(appJsGlobs))
+  //Then add unit tests specific js
+  .pipe(addSrc.append(filesToTest))
+  //Finally run karma unit tests
+  .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run',
+      singleRun: false
+    }))
+    .on('error', function(err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
 });
 
 
+gulp.task('jshint', function(){
 
+  //Apply jshint rules on application files only
+  return gulp.src(appJsGlobs)
+  .pipe(jshint({multistr: true}))
+  .pipe(jshint.reporter(jshintStylish));
 
-//Remove templates or replace original files by template ones
-gulp.task('applyOrRemoveTemplates', ['getAppResources', 'getBowerResources'], function(cb){
+});
 
-	var stillReplaceResourcesFilter= gfilter(['**/index.html.template', 'package.json.template']),
-		remainingResourcesFilter= gfilter(['**/*.template', '!index.html.template', '!package.json.template']);
+gulp.task('test-e2e', ['webdriver_update', 'express'],  function(cb){
 
-	return gulp.src(myutils.destFolder + '/**/*.template')
-	//TREAT INDEX TEMPLATE ONLY
-	.pipe(stillReplaceResourcesFilter)
-	//REMOVE TEMPLATE FILE AT END
-	.pipe(clean()) 
-	// REPLACE SOME RESOURCSE BY THEIR TEMPLATE 
-	// (INDEX.HTML AND PACKAGE.JSON FOR NOW)
-	.pipe(rename(function(path){path.extname= ''})) 
-	//WRITE THE RES
-	.pipe(gulp.dest(myutils.destFolder)) 
-	.pipe(stillReplaceResourcesFilter.restore()) 
-	//TREAT ALL TEMPLATES BUT INDEX
-	.pipe(remainingResourcesFilter) 
-	//REMOVE ALL TEMPLATES
-	.pipe(clean()) 
-	//IF TEMPLATE MODE, REPLACE ORIGINAL FILES BY THEIR TEMPLATES
-	.pipe(gulpif(myutils.isTemplate,rename(function(path){path.extname= ''}))) 
-	//AND WRITE THE RES
-	.pipe(gulpif(myutils.isTemplate, gulp.dest(myutils.destFolder))); 
+  //Check files to test
+  var filesToTest= myUtils.getFilesForPatterns(e2eJsGlobs);
+  if (filesToTest===undefined || filesToTest.length===0){
+    server.close();
+    cb();
+    return;
+  }
+
+  //start protractor
+  gulp.src(filesToTest, { read:false })
+      .pipe(protractor({
+        configFile: './protractor.conf.js',
+        args: ['--baseUrl', 'http://localhost:' + server.address().port +'/e2eTemplates/']
+      })).on('error', function(e) {
+        server.close();
+        throw e;
+        cb();
+      }).on('end', function() {
+        server.close();
+        cb();
+      });
 });
 
 
-// minify js
-gulp.task('minifyJs', ['applyOrRemoveTemplates'], function () {
-
-	var target_name='sdco-slides';
-	var jsPath= myutils.destFolder + myutils.appPathes.js,
-		toInclude= jsPath + '*.js',
-		toExclude= '!' + jsPath + 'ext.js',
-		globs= [toInclude, toExclude];
-
-
-    gulp.src(globs) 
-    .pipe(clean())
-    .pipe(concat( target_name + '.js'))
-    .pipe(gulp.dest( myutils.destFolder + myutils.appPathes.js)) //not minified
-    .pipe(uglify())
-    .pipe(rename(target_name + '-min.js'))
-    .pipe(gulp.dest( myutils.destFolder + myutils.appPathes.js)); //minified
-});
-
-//minify css
-gulp.task('minifyCss',  ['applyOrRemoveTemplates'], function () {
-	var target_name= 'sdco-slides';
-	var cssPath= myutils.destFolder + myutils.appPathes.styles,
-		toInclude= cssPath + '*.css',
-		toExclude= '!' + cssPath + 'ext.css',
-		globs= [toInclude, toExclude];
-
-    gulp.src(globs)
-    .pipe(clean())
-    .pipe(concat(target_name + '.css'))
-    .pipe(gulp.dest( myutils.destFolder + myutils.appPathes.styles)) //not minified
-    .pipe(cssmin())
-    .pipe(rename(target_name + '-min.css'))
-    .pipe(gulp.dest( myutils.destFolder + myutils.appPathes.styles)); //minified
+gulp.task('prebuild', ['test-unit', 'jshint', 'test-e2e'], function(cb){
+  cb();
 });
 
 
-gulp.task('makeIndex', ['applyOrRemoveTemplates'], function(){
+//BUILD PART
 
-	var globs= [
-		myutils.destFolder + '/**/index.html',
-		myutils.destFolder + myutils.appPathes.npm_package
-	];
-
-	gulp.src(globs)
-	// .pipe(debug())
-	.pipe( gulpif(
-		myutils.isStandalone,
-		template(myutils.getTemplateOpts())
-	))
-	.pipe(gulp.dest(myutils.destFolder));
+gulp.task('clean', ['prebuild'], function (cb) {
+  return gulp.src('./' + target)
+  .pipe(rimraf({force:true}));
 });
 
-gulp.task('default', ['minifyJs', 'minifyCss', 'makeIndex']);
+gulp.task('minifyJs', ['prebuild', 'clean'],  function(){
+
+  gulp.src(appJsGlobs) 
+  .pipe(concat( targetAppName + '.js'))
+  .pipe(gulp.dest('./' + target + '/js/')) //not minified
+  .pipe(uglify())
+  .pipe(rename(targetAppName + '-min.js'))
+  .pipe(gulp.dest('./' + target + '/js/')); //minified
+
+});
+
+gulp.task('minifyCss',['prebuild', 'clean'],  function(){
+
+  gulp.src(appCssGlobs)
+  .pipe(concat(targetAppName + '.css'))
+  .pipe(gulp.dest('./' + target + '/styles/'))
+  .pipe(cssmin())
+  .pipe(rename(targetAppName + '-min.css'))
+  .pipe(gulp.dest('./' + target + '/styles/'));
+
+});
+
+gulp.task('images', ['prebuild', 'clean'],  function(){
+  gulp.src(appImages)
+  .pipe(gulp.dest('./' + target + '/imgs'));
+});
+
+
+gulp.task('build', ['minifyJs','minifyCss', 'images'], function(cb){
+  cb();
+});
+
+gulp.task('default', ['build']);
