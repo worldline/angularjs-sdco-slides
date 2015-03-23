@@ -1,16 +1,27 @@
-
-function animationManager($rootScope){
+angular.module('slides')
+.service('sdcoAnimationManagerService', ['$rootScope', function ($rootScope){
 
     this.animationsClasses=['slide-animate'];
     this.currentAnimationIdx= 0;
+    var that= this;
 
     this.animations={
       'slide-animate-right': true,
       'slide-animate-left': false
     };
 
+    this.customStyles={};
+
+
     this.init= function(){
         $rootScope.slideClasses= this.animations;
+        $rootScope.slideStyles= this.customStyles;
+    }
+
+    this.updateCustomStyles= function(newStyles){
+        angular.forEach(newStyles, function(val, key){
+            that.customStyles[key] = val;
+        });
     }
 
     this.applyRight= function(){
@@ -22,7 +33,7 @@ function animationManager($rootScope){
     }
 
     this.apply= function(suffix){
-        var that= this;
+        // var that= this;
         var classToSet= that.animationsClasses[that.currentAnimationIdx] + '-' + suffix;
         jQuery.each(that.animations, function(key, value){
             that.animations[key]= false;
@@ -38,8 +49,4 @@ function animationManager($rootScope){
         this.currentAnimationIdx= idx;
     }
 
-}
-
-
-angular.module('<%= app_name %>')
-.service('sdcoAnimationManagerService', ['$rootScope', animationManager]);
+}]);

@@ -1,4 +1,4 @@
-angular.module('<%= app_name %>')
+angular.module('slides')
 .directive('sdcoMoveSlide',[ '$log',
 	function($log){
 		return{
@@ -11,7 +11,8 @@ angular.module('<%= app_name %>')
 			},
 			link:function(scope, element, attrs){
 
-				element.on('click',function(){
+				element.on('click',function(e){
+					e.preventDefault();
 					scope.$apply(function(){
 						scope.action();
 						if (scope.right==true){

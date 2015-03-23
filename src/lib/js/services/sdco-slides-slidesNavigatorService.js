@@ -1,5 +1,6 @@
-
-function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
+angular.module('slides')
+.service('sdcoSlidesNavigatorService', ['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', 
+function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
 	this.nbSlides= sdcoInfosSlidesService.templates.length;
 	this.nextRoute= '/';
@@ -83,6 +84,6 @@ function slidesNavigator(sdcoInfosSlidesService, sdcoAnimationManagerService, $l
 }
 
 
-angular.module('<%= app_name %>')
-.service('sdcoSlidesNavigatorService', 
-	['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', slidesNavigator]);
+
+]);
+

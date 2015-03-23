@@ -1,5 +1,4 @@
 {
-	"templatesBase": "partials",
 	"templates":[
 		"view1", 
 		"view2", 

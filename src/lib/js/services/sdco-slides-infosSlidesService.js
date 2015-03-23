@@ -1,5 +1,5 @@
 
-angular.module('blogApp')
+angular.module('slides')
 .constant(
 	'sdcoInfosSlidesService', 
 	(
