@@ -4,30 +4,35 @@ angular.module('slides')
 	function($rootScope){
 		return{
 			restrict:'E',
-			priority: 100,
 			scope:{
 				theArray:'=',
 				currentIndex:'='
 			},
-			template:'' +
-			'<div>' +
-			'	<div ' +
-			'		ng-style="getSuccessStyle()"' +
-			'		ng-repeat="slide in getSuccessSlides()"' +
-			'		ng-click="goToSlide($index)"' +
-			'	>' +
-			'	{{$index + 1}}' +
-			'	</div>' +
-			'	<div ' +
-			'		ng-style="getDangerStyle()"' +
-			'		ng-repeat="slide in getDangerSlides()"' +
-			'		ng-click="goToSlide($index + successSlides.length)"' +
-			'	>' +
-			'	{{$index + 1 + successSlides.length}}' +
-			'	</div>' +
-			'' +
-			'</div>' +
-			'',
+			template:'\
+			<progress max="theArray.length">\
+				<bar value="currentIndex+1" type="success">\
+		          <div\
+		            style="float:left; width:{{getSuccessElementsSize()}};" \
+		            ng-repeat="slide in getSuccessSlides()"\
+		            tooltip="{{getTooltip($index)}}"\
+		            tooltip-placement="bottom"\
+		            ng-click="goToSlide($index)"\
+		          > \
+		          	{{$index+1}}\
+		          </div>\
+				</bar>\
+        		<bar value="theArray.length-currentIndex-1" type="danger">\
+          			<div\
+            			style="float:left; width:{{getDangerElementsSize()}};" \
+            			ng-repeat="slide in getDangerSlides()"\
+            			tooltip="{{getTooltip(currentIndex+1+$index)}}"\
+            			tooltip-placement="bottom"\
+            			ng-click="goToSlide(currentIndex+1+$index)"\
+          			>\
+          				{{currentIndex+1+$index+1}}\
+          			</div>\
+          		</bar>\
+			</progress>',
 			link:function($scope, element, attrs){
 
 			    $scope.getTooltip= function(index){
@@ -41,8 +46,8 @@ angular.module('slides')
 			    $scope.getSuccessSlides= function(){
 			      var start= 0;
 			      var end= $scope.currentIndex+1;
-			      $scope.successSlides= $scope.theArray.slice(start,end);
-			      return $scope.successSlides;
+			      $scope.sucesSlides= $scope.theArray.slice(start,end);
+			      return $scope.sucesSlides;
 			    }
 
 			    $scope.getDangerSlides= function(){
@@ -52,27 +57,22 @@ angular.module('slides')
 			      return $scope.dangerSlides;
 			    }
 
+			    $scope.getSuccessElementsSize= function(){
+			      if ($scope.sucesSlides){
+			        return 100/$scope.sucesSlides.length + '%';
+			      }
+			      return 0;
+			    }
 
-			    $scope.getSuccessStyle= function(){
-			        return {
-			        	'width':$scope.theArray? 100/$scope.theArray.length + '%': '0',
-			        	'float':'left',
-			        	'height':'20px',
-			        	'background-color': 'green',
-			        	'text-align': 'center'
-			        };
-			    };
+			    $scope.getDangerElementsSize= function(){
+			      if ($scope.sucesSlides){
+			        return 100/$scope.dangerSlides.length + '%';
+			      }
+			      return 0;
+			    }
 
-			    $scope.getDangerStyle= function(){
-			        return {
-			        	'width':$scope.theArray? 100/$scope.theArray.length + '%': '0',
-			        	'float':'left',
-			        	'height':'20px',
-			        	'background-color': 'red',
-			        	'text-align': 'center'
-			        };
-			    };
 			}
+
 		}
 	}
 

@@ -11,13 +11,18 @@ angular.module('slides')
 			'<div sdco-slides-keydown current-index="currentIndex">' +
 			'<nav>' +
 			'	<h1> <a>navigation features</a> </h1>' +
-			'	<div style="width:90%; float: left; clear: both;">' +
-			'		<sdco-updatable-progress-bar' +
-			'			the-array="slides"' +
-			'			current-index="currentIndex"' +
-			'		/>' +
+			'	<div class="row" style="margin-left:5px; margin-right: 0;">' +
+			'		<div' +
+			'			class="col-sm-11" ' +
+			'			style="width:{{progressBarWidth}}; padding-right: 0px; padding-left: 0px;"' +
+			'		>' +
+			'			<sdco-updatable-progress-bar' +
+			'				the-array="slides"' +
+			'				current-index="currentIndex"' +
+			'			/>' +
+			'		</div>' +
+			'		<sdco-notes-export></sdco-notes-export>' +
 			'	</div>' +
-			'	<sdco-notes-export></sdco-notes-export>' +
 			'	<button sdco-move-slide ' +
 			'		left="true" class="left-link" ' +
 			'		current-index="currentIndex" ' +
