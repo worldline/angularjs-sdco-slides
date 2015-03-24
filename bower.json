@@ -29,7 +29,7 @@
     "angular-bootstrap": "0.12.0",
     "bootstrap": "3.3.1",
     "jquery": "2.1.1",
-    "sdco-tools": "file:///c/more/work/javascript/angular/perso/sdco-tools/.git"
+    "sdco-tools": "git://kazan.atosworldline.com/git/sdcosecurity-gitrepository-3"
   },
   "resolutions": {
     "angular": "1.3.0"
