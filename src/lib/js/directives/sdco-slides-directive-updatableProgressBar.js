@@ -6,33 +6,35 @@ angular.module('sdco-slides.directives')
 			restrict:'E',
 			scope:{
 				theArray:'=',
-				currentIndex:'='
+				currentIndex:'=',
+				displayPage:'='
 			},
-			template:'\
-			<progress max="theArray.length">\
-				<bar value="currentIndex+1" type="success">\
-		          <div\
-		            style="float:left; width:{{getSuccessElementsSize()}};" \
-		            ng-repeat="slide in getSuccessSlides()"\
-		            tooltip="{{getTooltip($index)}}"\
-		            tooltip-placement="bottom"\
-		            ng-click="goToSlide($index)"\
-		          > \
-		          	{{$index+1}}\
-		          </div>\
-				</bar>\
-        		<bar value="theArray.length-currentIndex-1" type="danger">\
-          			<div\
-            			style="float:left; width:{{getDangerElementsSize()}};" \
-            			ng-repeat="slide in getDangerSlides()"\
-            			tooltip="{{getTooltip(currentIndex+1+$index)}}"\
-            			tooltip-placement="bottom"\
-            			ng-click="goToSlide(currentIndex+1+$index)"\
-          			>\
-          				{{currentIndex+1+$index+1}}\
-          			</div>\
-          		</bar>\
-			</progress>',
+			template:'' +
+			'<progress max="theArray.length">'+
+				'<bar value="currentIndex+1" type="success">'+
+		          '<div '+
+		            'style="float:left; width:{{getSuccessElementsSize()}};height:100%;"'+
+		            'ng-repeat="slide in getSuccessSlides()"'+
+		            'tooltip="{{getTooltip($index)}}"'+
+		            'tooltip-placement="bottom"'+
+		            'ng-click="goToSlide($index)"'+
+		          '> '+
+		          '	{{displayPage==\'all\'?$index+1:\'\'}}'+
+		          '{{getPaging($index)}} '+
+		          '</div>'+
+				'</bar>'+
+        		'<bar value="theArray.length-currentIndex-1" type="danger">'+
+          		'	<div ' +
+            	'		style="float:left; width:{{getDangerElementsSize()}};height:100%;" '+
+            	'		ng-repeat="slide in getDangerSlides()" '+
+            	'		tooltip="{{getTooltip(currentIndex+1+$index)}}" '+
+            	'		tooltip-placement="bottom" ' +
+            	'		ng-click="goToSlide(currentIndex+1+$index)" ' +
+          		'	>' +
+          		'		{{displayPage==\'all\'?currentIndex+1+$index+1:\'\'}}' +
+          		'	</div> ' +
+          		'</bar> ' +
+			'</progress>',
 			link:function($scope, element, attrs){
 
 			    $scope.getTooltip= function(index){
@@ -70,6 +72,12 @@ angular.module('sdco-slides.directives')
 			      }
 			      return 0;
 			    };
+
+			    $scope.getPaging= function(index){
+			    	if ($scope.sucesSlides && $scope.displayPage == 'global' && index+1 == $scope.sucesSlides.length){
+			    		return $scope.sucesSlides.length + '/' + $scope.theArray.length;
+			    	}
+			    }
 
 			}
 

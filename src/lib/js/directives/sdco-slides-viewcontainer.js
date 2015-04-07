@@ -19,6 +19,7 @@ angular.module('sdco-slides.directives')
 			'			<sdco-updatable-progress-bar' +
 			'				the-array="slides"' +
 			'				current-index="currentIndex"' +
+			'				display-page="\'global\'" ' +
 			'			/>' +
 			'		</div>' +
 			'		<sdco-notes-export></sdco-notes-export>' +
