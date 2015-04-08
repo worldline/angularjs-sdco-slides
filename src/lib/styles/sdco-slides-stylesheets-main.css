@@ -53,6 +53,26 @@ button.main-note{
 	filter: hue-rotate(100deg);
 }
 
+/* PROGRESS BAR */
+
+.progress-sub-parts{
+	float:left;
+	height:100%;
+}
+
+.progress-sub-parts:hover{
+	cursor: pointer;
+}
+
+.global-paging{
+	display: block;
+	width: 5%;
+	background-color: #EEE;
+	float: left;
+	font-size: large;
+	font-weight: bolder;
+}
+
 
 /* VIEW CONTENT */
 .view-content{

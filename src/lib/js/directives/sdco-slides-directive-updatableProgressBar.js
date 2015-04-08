@@ -4,37 +4,47 @@ angular.module('sdco-slides.directives')
 	function($rootScope){
 		return{
 			restrict:'E',
+			replace: true,
 			scope:{
 				theArray:'=',
 				currentIndex:'=',
-				displayPage:'='
+				progressBarDisplay:'@'
 			},
-			template:'' +
-			'<progress max="theArray.length">'+
-				'<bar value="currentIndex+1" type="success">'+
-		          '<div '+
-		            'style="float:left; width:{{getSuccessElementsSize()}};height:100%;"'+
-		            'ng-repeat="slide in getSuccessSlides()"'+
-		            'tooltip="{{getTooltip($index)}}"'+
-		            'tooltip-placement="bottom"'+
-		            'ng-click="goToSlide($index)"'+
-		          '> '+
-		          '	{{displayPage==\'all\'?$index+1:\'\'}}'+
-		          '{{getPaging($index)}} '+
-		          '</div>'+
-				'</bar>'+
-        		'<bar value="theArray.length-currentIndex-1" type="danger">'+
-          		'	<div ' +
-            	'		style="float:left; width:{{getDangerElementsSize()}};height:100%;" '+
-            	'		ng-repeat="slide in getDangerSlides()" '+
-            	'		tooltip="{{getTooltip(currentIndex+1+$index)}}" '+
-            	'		tooltip-placement="bottom" ' +
-            	'		ng-click="goToSlide(currentIndex+1+$index)" ' +
-          		'	>' +
-          		'		{{displayPage==\'all\'?currentIndex+1+$index+1:\'\'}}' +
-          		'	</div> ' +
-          		'</bar> ' +
-			'</progress>',
+			template:' ' +
+			'<span> ' +
+			'<div' +
+			'	class="col-sm-11" ' +
+			'	style="padding-right: 0px; padding-left: 0px;"' +
+			'>' +
+			'	<progress max="theArray.length"> '+
+			'		<bar value="currentIndex+1" type="success"> ' +
+		    '		     <div ' +
+		    '			   class="progress-sub-parts"' +
+		    '		       style="width:{{getSuccessElementsSize()}};" ' +
+		    '		       ng-repeat="slide in getSuccessSlides()" ' +
+		    '		       tooltip="{{getTooltip($index)}}" ' +
+		    '		       tooltip-placement="bottom" ' +
+		    '		       ng-click="goToSlide($index)" ' +
+		    '		     > ' +
+		    '		     {{getSuccessSlidePagingLabel()}} ' +
+		    '		     </div> ' +
+			'		</bar> ' +
+        	'		<bar value="theArray.length-currentIndex-1" type="danger"> ' +
+          	'			<div ' +
+		    '			   class="progress-sub-parts"' +
+            '				style="width:{{getDangerElementsSize()}}" ' +
+            '				ng-repeat="slide in getDangerSlides()" ' +
+            '				tooltip="{{getTooltip(currentIndex+1+$index)}}" ' +
+            '				tooltip-placement="bottom" ' +
+            '				ng-click="goToSlide(currentIndex+1+$index)" ' +
+          	'			> ' +
+          	'				{{getDangerSlidePagingLabel()}} ' +
+          	'			</div> ' +
+          	'		</bar> ' +
+			'	</progress> ' +
+			'</div> ' +
+			'<span class="global-paging"> {{getGlobalPagingLabel()}} </span>' +
+			'</span> ' ,
 			link:function($scope, element, attrs){
 
 			    $scope.getTooltip= function(index){
@@ -73,11 +83,20 @@ angular.module('sdco-slides.directives')
 			      return 0;
 			    };
 
-			    $scope.getPaging= function(index){
-			    	if ($scope.sucesSlides && $scope.displayPage == 'global' && index+1 == $scope.sucesSlides.length){
+
+			    $scope.getSuccessSlidePagingLabel= function(index){
+					return ($scope.progressBarDisplay=='all'?$scope.$index + 1:'');
+			    };
+
+			    $scope.getDangerSlidePagingLabel= function(index){
+					return ($scope.progressBarDisplay=='all'?$scope.$index + 1 + $scope.currentIndex:'');
+			    };
+
+			    $scope.getGlobalPagingLabel= function(index){
+			    	if ($scope.sucesSlides && $scope.progressBarDisplay == 'global'){
 			    		return $scope.sucesSlides.length + '/' + $scope.theArray.length;
 			    	}
-			    }
+			    };
 
 			}
 

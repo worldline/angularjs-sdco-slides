@@ -13,6 +13,244 @@ angular.module('sdco-slides', ['sdco-slides.directives', 'sdco-slides.services']
 		return $delegate;
 	}]);
 }]);
+angular.module('sdco-slides.directives', []);
+angular.module('sdco-slides.directives')
+.directive('sdcoMoveSlide',[ '$log',
+	function($log){
+		return{
+			restrict: 'A',
+			scope:{
+				left:'=left',
+				right:'=right',
+				currentIndex:'=',
+				action:'&'
+			},
+			link:function(scope, element, attrs){
+
+				element.on('click',function(e){
+					e.preventDefault();
+					scope.$apply(function(){
+						scope.action();
+						if (scope.right===true){
+				    		scope.currentIndex++;
+						}else if (scope.left===true){
+				    		scope.currentIndex--;
+						}
+					});
+				});
+			}
+		};
+	}
+]);
+angular.module('sdco-slides.directives')
+.directive('sdcoUpdatableProgressBar', ['$rootScope',
+
+	function($rootScope){
+		return{
+			restrict:'E',
+			replace: true,
+			scope:{
+				theArray:'=',
+				currentIndex:'=',
+				progressBarDisplay:'@'
+			},
+			template:' ' +
+			'<span> ' +
+			'<div' +
+			'	class="col-sm-11" ' +
+			'	style="padding-right: 0px; padding-left: 0px;"' +
+			'>' +
+			'	<progress max="theArray.length"> '+
+			'		<bar value="currentIndex+1" type="success"> ' +
+		    '		     <div ' +
+		    '			   class="progress-sub-parts"' +
+		    '		       style="width:{{getSuccessElementsSize()}};" ' +
+		    '		       ng-repeat="slide in getSuccessSlides()" ' +
+		    '		       tooltip="{{getTooltip($index)}}" ' +
+		    '		       tooltip-placement="bottom" ' +
+		    '		       ng-click="goToSlide($index)" ' +
+		    '		     > ' +
+		    '		     {{getSuccessSlidePagingLabel()}} ' +
+		    '		     </div> ' +
+			'		</bar> ' +
+        	'		<bar value="theArray.length-currentIndex-1" type="danger"> ' +
+          	'			<div ' +
+		    '			   class="progress-sub-parts"' +
+            '				style="width:{{getDangerElementsSize()}}" ' +
+            '				ng-repeat="slide in getDangerSlides()" ' +
+            '				tooltip="{{getTooltip(currentIndex+1+$index)}}" ' +
+            '				tooltip-placement="bottom" ' +
+            '				ng-click="goToSlide(currentIndex+1+$index)" ' +
+          	'			> ' +
+          	'				{{getDangerSlidePagingLabel()}} ' +
+          	'			</div> ' +
+          	'		</bar> ' +
+			'	</progress> ' +
+			'</div> ' +
+			'<span class="global-paging"> {{getGlobalPagingLabel()}} </span>' +
+			'</span> ' ,
+			link:function($scope, element, attrs){
+
+			    $scope.getTooltip= function(index){
+			    	return 'slide' + (index + 1) + '(' + $scope.theArray[index] + ')';
+			    };
+
+			    $scope.goToSlide= function(index){
+			      $scope.currentIndex= index;
+			    };
+
+			    $scope.getSuccessSlides= function(){
+			      var start= 0;
+			      var end= $scope.currentIndex+1;
+			      $scope.sucesSlides= $scope.theArray.slice(start,end);
+			      return $scope.sucesSlides;
+			    };
+
+			    $scope.getDangerSlides= function(){
+			      var start= $scope.currentIndex+1;
+			      var end= $scope.length;
+			      $scope.dangerSlides= $scope.theArray.slice(start,end);
+			      return $scope.dangerSlides;
+			    };
+
+			    $scope.getSuccessElementsSize= function(){
+			      if ($scope.sucesSlides){
+			        return 100/$scope.sucesSlides.length + '%';
+			      }
+			      return 0;
+			    };
+
+			    $scope.getDangerElementsSize= function(){
+			      if ($scope.sucesSlides){
+			        return 100/$scope.dangerSlides.length + '%';
+			      }
+			      return 0;
+			    };
+
+
+			    $scope.getSuccessSlidePagingLabel= function(index){
+					return ($scope.progressBarDisplay=='all'?$scope.$index + 1:'');
+			    };
+
+			    $scope.getDangerSlidePagingLabel= function(index){
+					return ($scope.progressBarDisplay=='all'?$scope.$index + 1 + $scope.currentIndex:'');
+			    };
+
+			    $scope.getGlobalPagingLabel= function(index){
+			    	if ($scope.sucesSlides && $scope.progressBarDisplay == 'global'){
+			    		return $scope.sucesSlides.length + '/' + $scope.theArray.length;
+			    	}
+			    };
+
+			}
+
+		};
+	}
+
+
+]);
+angular.module('sdco-slides.directives')
+.directive('sdcoSlidesKeydown',[ '$log',
+	function($log){
+		return{
+			restrict: 'A',
+			scope:{
+				currentIndex:'='
+			},
+			link:function(scope, element, attrs){
+
+				//Make the element selectable
+				angular.element('body').on('keydown',function(e){
+					scope.$apply(function(){
+						if (e.keyCode == 37){//left
+							scope.currentIndex--;
+						}
+						else if (e.keyCode == 39){//right
+							scope.currentIndex++;
+						}
+					});
+				});
+			}
+		};
+	}
+
+]);
+angular.module('sdco-slides.directives')
+.directive('sdcoSlidescontainer', ['$rootScope','$window', '$timeout', 
+   '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
+   function($rootScope, $window, $timeout, $log, sdcoInfosSlidesService, 
+   			sdcoSlidesNavigatorService,  sdcoEditorService){
+
+	   	return {
+			restrict:'E',
+			replace: true,
+			template:''+
+				'<div sdco-slides-keydown current-index="currentIndex">' +
+				'	<nav>' +
+				'		<h1> <a>navigation features</a> </h1>' +
+				'		<div class="row" style="margin-left:5px; margin-right: 0;">' +
+				'			<sdco-updatable-progress-bar' +
+				'				the-array="slides"' +
+				'				current-index="currentIndex"' +
+				'				progress-bar-display="{{progressBarDisplay}}" ' +
+				'			></sdco-updatable-progress-bar>' +
+				'			<sdco-notes-export></sdco-notes-export>' +
+				'		</div>' +
+				'		<button sdco-move-slide ' +
+				'			left="true" class="left-link" ' +
+				'			current-index="currentIndex" ' +
+				'		/>' +
+				'		<button sdco-move-slide ' +
+				'			right="true" class="right-link" ' +
+				'			current-index="currentIndex"' +
+				'		/>' +
+				'	</nav>' +
+				'	<div ' +
+				'		ng-view ' +
+				'		sdco-view-size ' +
+				'		ng-class="slideClasses" ' +
+				'		ng-style="slideStyles" ' +
+				'		class="view-content"' +
+				'	>' +
+				'	</div>' +	
+				'</div>' +
+		'',
+			link: function($scope, $element, $attrs){
+
+				$scope.progressBarDisplay= $attrs.progressBarDisplay;
+
+			    $scope.slides= sdcoInfosSlidesService.templates;
+			    $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
+			    sdcoSlidesNavigatorService.indexCallback= function(index){
+			      $scope.currentIndex= index;
+			    };
+
+
+			    //Watch currentIndex to go to the specified slide
+			    $scope.$watch('currentIndex', function(newValue, oldValue){
+			        if (newValue !== undefined){
+			            $scope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
+			        }
+			    });
+
+			    $scope.action= function(){ 
+			      sdcoEditorService.toDom();
+			      sdcoEditorService.reset();
+			    };		
+
+			}
+		};
+}]);
+angular.module('sdco-slides.directives')
+.directive('sdcoViewSize', ['sdcoAnimationManagerService', function(animationService){
+
+	return {
+		restrict:'A',
+		link:function($scope, $element, $attrs){
+			animationService.updateCustomStyles({width:Math.floor($element.width()) + 'px'});
+		}
+	};
+}]);
 angular.module('sdco-slides.services', ['ngRoute','ngAnimate', 'ngSanitize','ui.bootstrap','sdco-tools']);
 angular.module('sdco-slides.services')
 .service('sdcoAnimationManagerService', ['$rootScope', function ($rootScope){
@@ -228,226 +466,3 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 
 ]);
 
-
-angular.module('sdco-slides.directives', []);
-angular.module('sdco-slides.directives')
-.directive('sdcoMoveSlide',[ '$log',
-	function($log){
-		return{
-			restrict: 'A',
-			scope:{
-				left:'=left',
-				right:'=right',
-				currentIndex:'=',
-				action:'&'
-			},
-			link:function(scope, element, attrs){
-
-				element.on('click',function(e){
-					e.preventDefault();
-					scope.$apply(function(){
-						scope.action();
-						if (scope.right===true){
-				    		scope.currentIndex++;
-						}else if (scope.left===true){
-				    		scope.currentIndex--;
-						}
-					});
-				});
-			}
-		};
-	}
-]);
-angular.module('sdco-slides.directives')
-.directive('sdcoUpdatableProgressBar', ['$rootScope',
-
-	function($rootScope){
-		return{
-			restrict:'E',
-			scope:{
-				theArray:'=',
-				currentIndex:'=',
-				displayPage:'='
-			},
-			template:'' +
-			'<progress max="theArray.length">'+
-				'<bar value="currentIndex+1" type="success">'+
-		          '<div '+
-		            'style="float:left; width:{{getSuccessElementsSize()}};height:100%;"'+
-		            'ng-repeat="slide in getSuccessSlides()"'+
-		            'tooltip="{{getTooltip($index)}}"'+
-		            'tooltip-placement="bottom"'+
-		            'ng-click="goToSlide($index)"'+
-		          '> '+
-		          '	{{displayPage==\'all\'?$index+1:\'\'}}'+
-		          '{{getPaging($index)}} '+
-		          '</div>'+
-				'</bar>'+
-        		'<bar value="theArray.length-currentIndex-1" type="danger">'+
-          		'	<div ' +
-            	'		style="float:left; width:{{getDangerElementsSize()}};height:100%;" '+
-            	'		ng-repeat="slide in getDangerSlides()" '+
-            	'		tooltip="{{getTooltip(currentIndex+1+$index)}}" '+
-            	'		tooltip-placement="bottom" ' +
-            	'		ng-click="goToSlide(currentIndex+1+$index)" ' +
-          		'	>' +
-          		'		{{displayPage==\'all\'?currentIndex+1+$index+1:\'\'}}' +
-          		'	</div> ' +
-          		'</bar> ' +
-			'</progress>',
-			link:function($scope, element, attrs){
-
-			    $scope.getTooltip= function(index){
-			    	return 'slide' + (index + 1) + '(' + $scope.theArray[index] + ')';
-			    };
-
-			    $scope.goToSlide= function(index){
-			      $scope.currentIndex= index;
-			    };
-
-			    $scope.getSuccessSlides= function(){
-			      var start= 0;
-			      var end= $scope.currentIndex+1;
-			      $scope.sucesSlides= $scope.theArray.slice(start,end);
-			      return $scope.sucesSlides;
-			    };
-
-			    $scope.getDangerSlides= function(){
-			      var start= $scope.currentIndex+1;
-			      var end= $scope.length;
-			      $scope.dangerSlides= $scope.theArray.slice(start,end);
-			      return $scope.dangerSlides;
-			    };
-
-			    $scope.getSuccessElementsSize= function(){
-			      if ($scope.sucesSlides){
-			        return 100/$scope.sucesSlides.length + '%';
-			      }
-			      return 0;
-			    };
-
-			    $scope.getDangerElementsSize= function(){
-			      if ($scope.sucesSlides){
-			        return 100/$scope.dangerSlides.length + '%';
-			      }
-			      return 0;
-			    };
-
-			    $scope.getPaging= function(index){
-			    	if ($scope.sucesSlides && $scope.displayPage == 'global' && index+1 == $scope.sucesSlides.length){
-			    		return $scope.sucesSlides.length + '/' + $scope.theArray.length;
-			    	}
-			    }
-
-			}
-
-		};
-	}
-
-
-]);
-angular.module('sdco-slides.directives')
-.directive('sdcoSlidesKeydown',[ '$log',
-	function($log){
-		return{
-			restrict: 'A',
-			scope:{
-				currentIndex:'='
-			},
-			link:function(scope, element, attrs){
-
-				//Make the element selectable
-				angular.element('body').on('keydown',function(e){
-					scope.$apply(function(){
-						if (e.keyCode == 37){//left
-							scope.currentIndex--;
-						}
-						else if (e.keyCode == 39){//right
-							scope.currentIndex++;
-						}
-					});
-				});
-			}
-		};
-	}
-
-]);
-angular.module('sdco-slides.directives')
-.directive('sdcoSlidescontainer', ['$rootScope','$window', '$timeout', 
-   '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
-   function($rootScope, $window, $timeout, $log, sdcoInfosSlidesService, 
-   			sdcoSlidesNavigatorService,  sdcoEditorService){
-
-	   	return {
-		restrict:'E',
-		replace: true,
-		template:''+
-			'<div sdco-slides-keydown current-index="currentIndex">' +
-			'<nav>' +
-			'	<h1> <a>navigation features</a> </h1>' +
-			'	<div class="row" style="margin-left:5px; margin-right: 0;">' +
-			'		<div' +
-			'			class="col-sm-11" ' +
-			'			style="width:{{progressBarWidth}}; padding-right: 0px; padding-left: 0px;"' +
-			'		>' +
-			'			<sdco-updatable-progress-bar' +
-			'				the-array="slides"' +
-			'				current-index="currentIndex"' +
-			'				display-page="\'global\'" ' +
-			'			/>' +
-			'		</div>' +
-			'		<sdco-notes-export></sdco-notes-export>' +
-			'	</div>' +
-			'	<button sdco-move-slide ' +
-			'		left="true" class="left-link" ' +
-			'		current-index="currentIndex" ' +
-			'	/>' +
-			'	<button sdco-move-slide ' +
-			'		right="true" class="right-link" ' +
-			'		current-index="currentIndex"' +
-			'	/>' +
-			'</nav>' +
-			'<div ' +
-			'	ng-view ' +
-			'	sdco-view-size ' +
-			'	ng-class="slideClasses" ' +
-			'	ng-style="slideStyles" ' +
-			'	class="view-content"' +
-			'>' +
-			'</div>' +
-			'</div>' +
-		'',
-		link: function($scope, $element, $attrs){
-
-		    $scope.slides= sdcoInfosSlidesService.templates;
-		    $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
-		    sdcoSlidesNavigatorService.indexCallback= function(index){
-		      $scope.currentIndex= index;
-		    };
-
-
-		    //Watch currentIndex to go to the specified slide
-		    $scope.$watch('currentIndex', function(newValue, oldValue){
-		        if (newValue !== undefined){
-		            $scope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
-		        }
-		    });
-
-		    $scope.action= function(){ 
-		      sdcoEditorService.toDom();
-		      sdcoEditorService.reset();
-		    };		
-
-		}
-	};
-}]);
-angular.module('sdco-slides.directives')
-.directive('sdcoViewSize', ['sdcoAnimationManagerService', function(animationService){
-
-	return {
-		restrict:'A',
-		link:function($scope, $element, $attrs){
-			animationService.updateCustomStyles({width:Math.floor($element.width()) + 'px'});
-		}
-	};
-}]);
