@@ -34,25 +34,6 @@ button.right-link{
  	background-image: url("../imgs/navigate-right-icon3.png");
 }
 
-/* NOTES */
-button.main-note, button.local-note{
-	background-image: url("../imgs/icon-note.png");
-	background-size: contain;
-	width: 1em;
-	height: 1em;
-	border: none;
-	background-color: transparent;
-	background-repeat: no-repeat;
-}
-
-button.main-note{
-	float: right;
-	-webkit-filter: hue-rotate(100deg);
-	-moz-filter: hue-rotate(100deg);
-	-ms-filter: hue-rotate(100deg);
-	filter: hue-rotate(100deg);
-}
-
 /* PROGRESS BAR */
 
 .progress-sub-parts{
