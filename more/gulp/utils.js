@@ -5,7 +5,7 @@ var _= require('underscore'),
   	logger= require('morgan'),
   	baseProject= __dirname + '/../../';
 
-module.exports={
+var exports={
 
 	getFilesForPatterns: function(patterns){
 	  return _.chain(patterns)
@@ -17,15 +17,29 @@ module.exports={
 
 	getServer: function(){
 	  return http.createServer(express()
-	  	.use(logger())
-		.use('/',express.static(baseProject + '/bower_components'))
-		.use('/',express.static(baseProject + '/src/lib'))
-		.use('/',express.static(baseProject + '/src/sample'))
+	  	//.use(logger())
+	    .use(express.static(baseProject + '/src/lib'))
+	    .use(express.static(baseProject + '/src/sample'))
+	    .use(express.static(baseProject + '/bower_components/'))
 	  );
 	},
 
 	getPackage: function(){
 		return require(baseProject +'/package.json');
+	},
+
+	getHeaders: function(){
+		var cpackage= exports.getPackage(),
+			author= cpackage.author,
+			version= cpackage.version,
+			authorTemplate= '/* Author: ' + author.name + '<' + author.email + '> */\n',
+			versionTemplate= '/* Version: ' + version + ' */\n',
+			endTemplate= '\n\n',
+			template= authorTemplate + versionTemplate + endTemplate;
+
+		return template;
 	}
 
-}
+};
+
+module.exports=exports;

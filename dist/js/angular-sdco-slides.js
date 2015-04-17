@@ -1,3 +1,7 @@
+/* Author: Legrand Régis<regis.legrand@worldline.com> */
+/* Version: 1.0.0-SNAPSHOT */
+
+
 angular.module('sdco-slides', ['sdco-slides.directives', 'sdco-slides.services'])
 .config(['$provide', function($provide){
 
@@ -13,222 +17,6 @@ angular.module('sdco-slides', ['sdco-slides.directives', 'sdco-slides.services']
 		return $delegate;
 	}]);
 }]);
-angular.module('sdco-slides.services', ['ngRoute','ngAnimate', 'ngSanitize','ui.bootstrap','sdco-tools']);
-angular.module('sdco-slides.services')
-.service('sdcoAnimationManagerService', ['$rootScope', function ($rootScope){
-
-    this.animationsClasses=['slide-animate'];
-    this.currentAnimationIdx= 0;
-    var that= this;
-
-    this.animations={
-      'slide-animate-right': true,
-      'slide-animate-left': false
-    };
-
-    this.customStyles={};
-
-
-    this.init= function(){
-        $rootScope.slideClasses= this.animations;
-        $rootScope.slideStyles= this.customStyles;
-    };
-
-    this.updateCustomStyles= function(newStyles){
-        angular.forEach(newStyles, function(val, key){
-            that.customStyles[key] = val;
-        });
-    };
-
-    this.applyRight= function(){
-        this.apply('right');
-    };
-
-    this.applyLeft= function(){
-        this.apply('left');
-    };
-
-    this.apply= function(suffix){
-        // var that= this;
-        var classToSet= that.animationsClasses[that.currentAnimationIdx] + '-' + suffix;
-        jQuery.each(that.animations, function(key, value){
-            that.animations[key]= false;
-        });
-        that.animations[classToSet]= true;
-    };
-
-    this.getAnimations= function(){
-        return this.animations;
-    };
-
-    this.setAnimation= function(idx){
-        this.currentAnimationIdx= idx;
-    };
-
-}]);
-angular.module('sdco-slides.services')
-.provider('slidesConfig', ['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'sdcoEditorServiceProvider',
-	function($routeProvider, $locationProvider, sdcoInfosSlidesService, sdcoEditorServiceProvider){
-
-	var config= {
-		templatesRootPath:'views/partials/'
-	};
-
-	this.setTemplatesRootPath= function(templatesRootPath){
-		config.templatesRootPath= templatesRootPath;
-	};
-
-
-	this.applyConf= function(){
-
-		var firstSlideUrl;
-
-		angular.forEach(sdcoInfosSlidesService.templates, function(value, index){
-			var url= '/slide' + (index+1),
-		    template= config.templatesRootPath + value + '.html';
-		    if (index === 0){
-		    	firstSlideUrl= url;
-		    }
-			$routeProvider.when( url, {templateUrl: template });
-		});
-
-		$routeProvider.otherwise({redirectTo: firstSlideUrl});
-		$locationProvider.html5Mode(false);
-      	sdcoEditorServiceProvider.isStorageActive= true;
-	};
-
-
-	this.$get= ['sdcoAnimationManagerService','sdcoSlidesNavigatorService','sdcoNotesService',
-	function(sdcoAnimationManagerService,sdcoSlidesNavigatorService, sdcoNotesService){
-
-		var SlidesConfig= function(){
-
-			this.getConfig= function(){
-				return config;
-			};
-
-			this.init= function(){
-				sdcoAnimationManagerService.init();
-				sdcoSlidesNavigatorService.init();
-				sdcoNotesService.init();		
-			};
-
-		};
-
-		return new SlidesConfig();
-	}];
-
-}]);
-angular.module('sdco-slides.services')
-.constant(
-	'sdcoInfosSlidesService', 
-	(
-		function(){
-
-			var res= null;
-
-			$.ajax({
-				type: 'GET',
-				url: 'data/slides.json',
-				dataType: 'json',
-				data: {},
-				success: function(data){res= data;},
-				async: false
-			});
-
-			return res;
-		}
-	)()
-);
-angular.module('sdco-slides.services')
-.service('sdcoSlidesNavigatorService', ['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', 
-function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
-
-	this.nbSlides= sdcoInfosSlidesService.templates.length;
-	this.nextRoute= '/';
-	this.indexCallback= undefined;
-
-
-	this.increment= function(){
-		return this.goToIndex(this.index+1);		
-	};
-
-	this.decrement= function(){
-		return this.goToIndex(this.index-1);
-	};
-
-	this.goToIndex= function(idx){
-		if (idx<0){
-			return 0;
-		} 
-		if(idx+1>this.nbSlides){
-			return this.nbSlides-1;
-		}
-
-		var increment= idx>this.index;
-		var decrement= idx<this.index;
-		var stayOnPage= (idx == this.index);
-
-		if (stayOnPage){
-			return idx;
-		}
-
-		this.index=idx;
-		if (increment){
-			sdcoAnimationManagerService.applyRight();
-		}else if (decrement){
-			sdcoAnimationManagerService.applyLeft();
-		}
-
-		this.nextRoute= 'slide' + (this.index+1);
-		$location.url(this.nextRoute);
-		return idx;	
-	};
-
-	this.getIndex= function(){
-		return this.index;
-	};
-
-	this.getIndexFromUrl= function(url){
-		var regex=/\d+/;
-		var matches= url.match(regex);
-		if (matches){
-			return parseInt(matches[0]) -1;
-		}
-		return 0;
-	};
-
-	this.init= function(){
-		var that= this;
-
-		//initialize index
-		that.index= this.getIndexFromUrl($location.path());
-
-		//Update index when url changes
-		$rootScope.$on('$routeChangeStart', function(event, next, current){
-			if (next === current){
-				return;
-			}
-			var newIndex= that.getIndexFromUrl($location.path());
-			if (newIndex != that.index){
-				newIndex= that.goToIndex(newIndex);
-				if (that.indexCallback){
-					that.indexCallback(newIndex);
-				}
-			}
-		});
-		
-	};
-
-
-
-}
-
-
-
-]);
-
-
 angular.module('sdco-slides.directives', []);
 angular.module('sdco-slides.directives')
 .directive('sdcoMoveSlide',[ '$log',
@@ -467,3 +255,218 @@ angular.module('sdco-slides.directives')
 		}
 	};
 }]);
+angular.module('sdco-slides.services', ['ngRoute','ngAnimate', 'ngSanitize','ui.bootstrap','sdco-tools']);
+angular.module('sdco-slides.services')
+.service('sdcoAnimationManagerService', ['$rootScope', function ($rootScope){
+
+    this.animationsClasses=['slide-animate'];
+    this.currentAnimationIdx= 0;
+    var that= this;
+
+    this.animations={
+      'slide-animate-right': true,
+      'slide-animate-left': false
+    };
+
+    this.customStyles={};
+
+
+    this.init= function(){
+        $rootScope.slideClasses= this.animations;
+        $rootScope.slideStyles= this.customStyles;
+    };
+
+    this.updateCustomStyles= function(newStyles){
+        angular.forEach(newStyles, function(val, key){
+            that.customStyles[key] = val;
+        });
+    };
+
+    this.applyRight= function(){
+        this.apply('right');
+    };
+
+    this.applyLeft= function(){
+        this.apply('left');
+    };
+
+    this.apply= function(suffix){
+        // var that= this;
+        var classToSet= that.animationsClasses[that.currentAnimationIdx] + '-' + suffix;
+        jQuery.each(that.animations, function(key, value){
+            that.animations[key]= false;
+        });
+        that.animations[classToSet]= true;
+    };
+
+    this.getAnimations= function(){
+        return this.animations;
+    };
+
+    this.setAnimation= function(idx){
+        this.currentAnimationIdx= idx;
+    };
+
+}]);
+angular.module('sdco-slides.services')
+.provider('slidesConfig', ['$routeProvider','$locationProvider', 'sdcoInfosSlidesService', 'sdcoEditorServiceProvider',
+	function($routeProvider, $locationProvider, sdcoInfosSlidesService, sdcoEditorServiceProvider){
+
+	var config= {
+		templatesRootPath:'views/partials/'
+	};
+
+	this.setTemplatesRootPath= function(templatesRootPath){
+		config.templatesRootPath= templatesRootPath;
+	};
+
+
+	this.applyConf= function(){
+
+		var firstSlideUrl;
+
+		angular.forEach(sdcoInfosSlidesService.templates, function(value, index){
+			var url= '/slide' + (index+1),
+		    template= config.templatesRootPath + value + '.html';
+		    if (index === 0){
+		    	firstSlideUrl= url;
+		    }
+			$routeProvider.when( url, {templateUrl: template });
+		});
+
+		$routeProvider.otherwise({redirectTo: firstSlideUrl});
+		$locationProvider.html5Mode(false);
+      	sdcoEditorServiceProvider.isStorageActive= true;
+	};
+
+
+	this.$get= ['sdcoAnimationManagerService','sdcoSlidesNavigatorService','sdcoNotesService',
+	function(sdcoAnimationManagerService,sdcoSlidesNavigatorService, sdcoNotesService){
+
+		var SlidesConfig= function(){
+
+			this.getConfig= function(){
+				return config;
+			};
+
+			this.init= function(){
+				sdcoAnimationManagerService.init();
+				sdcoSlidesNavigatorService.init();
+				sdcoNotesService.init();		
+			};
+
+		};
+
+		return new SlidesConfig();
+	}];
+
+}]);
+angular.module('sdco-slides.services')
+.constant(
+	'sdcoInfosSlidesService', 
+	(
+		function(){
+
+			var res= null;
+
+			$.ajax({
+				type: 'GET',
+				url: 'data/slides.json',
+				dataType: 'json',
+				data: {},
+				success: function(data){res= data;},
+				async: false
+			});
+
+			return res;
+		}
+	)()
+);
+angular.module('sdco-slides.services')
+.service('sdcoSlidesNavigatorService', ['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', 
+function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
+
+	this.nbSlides= sdcoInfosSlidesService.templates.length;
+	this.nextRoute= '/';
+	this.indexCallback= undefined;
+
+
+	this.increment= function(){
+		return this.goToIndex(this.index+1);		
+	};
+
+	this.decrement= function(){
+		return this.goToIndex(this.index-1);
+	};
+
+	this.goToIndex= function(idx){
+		if (idx<0){
+			return 0;
+		} 
+		if(idx+1>this.nbSlides){
+			return this.nbSlides-1;
+		}
+
+		var increment= idx>this.index;
+		var decrement= idx<this.index;
+		var stayOnPage= (idx == this.index);
+
+		if (stayOnPage){
+			return idx;
+		}
+
+		this.index=idx;
+		if (increment){
+			sdcoAnimationManagerService.applyRight();
+		}else if (decrement){
+			sdcoAnimationManagerService.applyLeft();
+		}
+
+		this.nextRoute= 'slide' + (this.index+1);
+		$location.url(this.nextRoute);
+		return idx;	
+	};
+
+	this.getIndex= function(){
+		return this.index;
+	};
+
+	this.getIndexFromUrl= function(url){
+		var regex=/\d+/;
+		var matches= url.match(regex);
+		if (matches){
+			return parseInt(matches[0]) -1;
+		}
+		return 0;
+	};
+
+	this.init= function(){
+		var that= this;
+
+		//initialize index
+		that.index= this.getIndexFromUrl($location.path());
+
+		//Update index when url changes
+		$rootScope.$on('$routeChangeStart', function(event, next, current){
+			if (next === current){
+				return;
+			}
+			var newIndex= that.getIndexFromUrl($location.path());
+			if (newIndex != that.index){
+				newIndex= that.goToIndex(newIndex);
+				if (that.indexCallback){
+					that.indexCallback(newIndex);
+				}
+			}
+		});
+		
+	};
+
+
+
+}
+
+
+
+]);
+
