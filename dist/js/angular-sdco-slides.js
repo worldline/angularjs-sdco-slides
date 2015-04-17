@@ -1,5 +1,5 @@
 /* Author: Legrand Régis<regis.legrand@worldline.com> */
-/* Version: 1.0.0 */
+/* Version: 1.0.1-SNAPSHOT */
 
 
 angular.module('sdco-slides', ['sdco-slides.directives', 'sdco-slides.services'])
