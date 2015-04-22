@@ -1,0 +1,1 @@
+angular.module("slidesSample",["sdco-slides"]).config(["slidesConfigProvider",function(i){i.applyConf()}]).run(["slidesConfig",function(i){i.init()}]);

@@ -1,0 +1,17 @@
+<div>
+	<h1> Two-Way Data Binding Magic! </h1>
+
+	<ul>
+		<li><code>{ {login} }</code> displays <span class="text-red">$scope.login</span> value.</li>
+		<li><code>ng-model</code> directive binds input value to the associated scope variable.</li>
+	</ul>
+
+  <sdco-editor compile="true"  width="800px" height="300px">
+  	<sdco-editor-tab type="html" heading="sample.html">
+Login: {{login}}
+&lt;br/&gt;
+&lt;input type="text" ng-model="login" placeholder="Insert login here..."/&gt;
+  	</sdco-editor-tab>
+  </sdco-editor>
+
+</div>
