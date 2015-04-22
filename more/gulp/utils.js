@@ -7,6 +7,15 @@ var _= require('underscore'),
 
 var exports={
 
+	globs: {
+		appJsGlobs: ['src/lib/js/**/*.js'],
+    	sampleJsGlobs: ['src/sample/js/app.js'],
+    	unitTestJsGlobs: ['test/unit/utils.js','test/unit/**/*Spec.js'],
+    	e2eJsGlobs: ['test/e2e/**/*.js'],
+    	appCssGlobs: ['src/lib/styles/**/*.css'],
+    	appImages: ['src/lib/imgs/**/*']
+	},
+
 	getFilesForPatterns: function(patterns){
 	  return _.chain(patterns)
 	  .map(function(pattern){return glob.sync(pattern); })

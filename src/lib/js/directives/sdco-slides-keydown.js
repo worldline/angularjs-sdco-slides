@@ -1,4 +1,23 @@
 angular.module('sdco-slides.directives')
+ /**
+ * @ngdoc directive
+ * @name sdco-slides.directive:sdcoSlidesKeydown
+ * @restrict A
+ * @scope
+ *
+ * @description
+ * <p>
+ * Used internally only.
+ * Listen for left and right keydowns and update the binded index by incrementing 
+ * it for right keydown and decrementing it for left keydown.
+ * </p>
+ * <h2> Remark </h2>
+ * <p>
+ * The index is used gloablly in the application and corresponds to the current slide index
+ * </p>
+ *
+ * @param {int} currentIndex the binded index
+ **/
 .directive('sdcoSlidesKeydown',[ '$log',
 	function($log){
 		return{

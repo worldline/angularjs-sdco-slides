@@ -13,20 +13,25 @@ var gulp= require('gulp'),
   addSrc= require('gulp-add-src'),
   gfilter= require('gulp-filter'),
   rename= require('gulp-rename'),
+  usemin=require('gulp-usemin'),
+  gdocs= require('gulp-ngdocs'),
   gheader= require('gulp-header'),
   protractor= require('gulp-protractor').protractor,
   webdriver_standalone = require('gulp-protractor').webdriver_standalone,
   webdriver_update = require('gulp-protractor').webdriver_update,
-  myUtils= require(__dirname + '/more/gulp/utils'),
+  myUtils= require('./utils'),
   server= myUtils.getServer();
 
-var appJsGlobs=['src/lib/js/**/*.js'],
-    unitTestJsGlobs=['test/unit/utils.js','test/unit/**/*Spec.js'],
-    e2eJsGlobs= ['test/e2e/**/*.js'],
-    appCssGlobs= ['src/lib/styles/**/*.css'],
-    appImages= ['src/lib/imgs/**/*'];
+var globs= myUtils.globs,
+    appJsGlobs=globs.appJsGlobs,
+    sampleJsGlobs=globs.sampleJsGlobs,
+    unitTestJsGlobs=globs.unitTestJsGlobs,
+    e2eJsGlobs= globs.e2eJsGlobs,
+    appCssGlobs= globs.appCssGlobs,
+    appImages= globs.appImages;
 
 var target='dist',
+    ghpages='ghpages',
     targetAppName= myUtils.getPackage().name;
 
 /**
@@ -108,8 +113,16 @@ gulp.task('test-e2e', ['webdriver_update', 'express'],  function(cb){
       });
 });
 
+gulp.task('ngdocs', function(cb){
 
-gulp.task('prebuild', ['test-unit', 'jshint', 'test-e2e'], function(cb){
+  return gulp.src(appJsGlobs)
+  .pipe(gdocs.process())
+  .pipe(gulp.dest('./reports/doc/'));
+
+});
+
+
+gulp.task('prebuild', ['test-unit', 'jshint', 'test-e2e', 'ngdocs'], function(cb){
   cb();
 });
 
@@ -152,9 +165,9 @@ gulp.task('images', ['prebuild', 'clean'],  function(){
   .pipe(gulp.dest('./' + target + '/imgs'));
 });
 
-
 gulp.task('build', ['minifyJs','minifyCss', 'images'], function(cb){
   cb();
 });
+
 
 gulp.task('default', ['build']);

@@ -1,0 +1,51 @@
+<h1><code ng:non-bindable="">slidesConfig</code>
+<div><span class="hint">service in module <code ng:non-bindable="">sdco-slides</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="sdco-slides-service-page sdco-slides-service-slidesconfig-page"><p>This service owns some configuration attributes.
+It&#39;s <a href="api/sdco-slides.service:slidesConfig#methods_init">init</a>
+function has to be called at start.</p>
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_getconfig">getConfig()</h3>
+<div class="getconfig"><div class="getconfig-page"><p>Get the config object</p>
+</div><h5 id="methods_getconfig_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="getconfig-page"><p>the config object</p>
+</div></td></tr></table><h4 id="methods_getconfig_example">Example</h4>
+<div class="example"><div class="getconfig-page"><p><pre>
+angular.module(&#39;slidesSample&#39;, [&#39;sdco-slides&#39;])
+//Config routes
+.config([&#39;slidesConfigProvider&#39;,
+  function(slidesConfigProvider){
+    slidesConfigProvider.applyConf();
+}])
+//Init view classes
+.run([&#39;slidesConfig&#39;,  function(slidesConfig){
+  slidesConfig.init();
+}]);</p>
+</div></div>
+</div>
+</li>
+<li><h3 id="methods_init">init()</h3>
+<div class="init"><div class="init-page"><p>Initialize all internal services which has to be initialized at start</p>
+</div><h5 id="methods_init_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="init-page"><p>the config object</p>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="sdco-slides-service-page sdco-slides-service-slidesconfig-page"><p><pre>
+angular.module(&#39;slidesSample&#39;, [&#39;sdco-slides&#39;])
+//Config routes
+.config([&#39;slidesConfigProvider&#39;,
+  function(slidesConfigProvider){
+    slidesConfigProvider.applyConf();
+}])
+//Init view classes
+.run([&#39;slidesConfig&#39;,  function(slidesConfig){
+  slidesConfig.init();
+}]);</p>
+<p> This service shouldn&#39;t be used out of <a href="api/sdco-slides">this module</a> </p>
+</div></div>
+</div>

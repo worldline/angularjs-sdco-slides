@@ -1,4 +1,25 @@
 angular.module('sdco-slides.directives')
+ /**
+ * @ngdoc directive
+ * @name sdco-slides.directive:sdcoUpdatableProgressBar
+ * @restrict E
+ * @scope
+ *
+ * @description
+ * <p>
+ * Used internally only.
+ * Add a progress bar describing the advancement of slides.
+ * It is the possible to click on the bar to go to a specific slide.
+ * </p>
+ * 
+ * @param {Array} theArray the array containing slides data.
+ * Should be replaced by an integer later.
+ *
+ * @param {int} currentIndex the binded index
+ *
+ * @param {String} [progressBarDisplay=global] 'all' if you want to display the slides numbers 
+ * directly in the bar or 'global' if you want a global pager to be added
+ **/
 .directive('sdcoUpdatableProgressBar', ['$rootScope',
 
 	function($rootScope){

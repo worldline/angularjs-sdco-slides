@@ -1,4 +1,32 @@
 angular.module('sdco-slides.directives')
+ /**
+ * @ngdoc directive
+ * @name sdco-slides.directive:sdcoSlidescontainer
+ * @restrict E
+ *
+ * @description
+ * The directive which owns the whole application.
+ * Add this directive in your DOM to display the slides you have defined.
+ *
+ * @param {String} heading the title of the tab
+ *
+ * @example
+ * <pre>
+ * <sdco-editor compile="false" compile-on-demand="true" js-fiddle="true">
+ *  <sdo-editor-tab type="html" heading="index.html">
+ *   &lt;p&gt; id="elt" my escaped html content &lt/p&gt;
+ *  </sdco-editor-tab>
+ *  <sdo-editor-tab type="javascript" heading="main.js">
+ *   document.getElementById('elt').innerText='changed';
+ *  </sdco-editor-tab> 
+ *  <sdo-editor-tab type="css" heading="main.css">
+ *   p{
+ *	  color: red;
+ *   }
+ *  </sdco-editor-tab>
+ * </sdco-editor>
+ * </pre>
+ **/
 .directive('sdcoSlidescontainer', ['$rootScope','$window', '$timeout', 
    '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
    function($rootScope, $window, $timeout, $log, sdcoInfosSlidesService, 

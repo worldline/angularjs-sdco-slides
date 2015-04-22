@@ -1,4 +1,12 @@
 angular.module('sdco-slides.services')
+/**
+ * @ngdoc service
+ * @name sdco-slides.service:sdcoSlidesNavigatorService
+ *
+ * @description
+ * Make the glue between the index and the view: update the route based on the index
+ * and reciprocally
+ **/
 .service('sdcoSlidesNavigatorService', ['sdcoInfosSlidesService', 'sdcoAnimationManagerService','$location', '$rootScope', 
 function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootScope){
 
@@ -6,15 +14,37 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 	this.nextRoute= '/';
 	this.indexCallback= undefined;
 
-
+    /**
+    * @ngdoc method
+    * @name increment
+    * @methodOf sdco-slides.service:sdcoSlidesNavigatorService
+    * @description
+    * Increment the index if possible and go to the associated view
+    **/
 	this.increment= function(){
 		return this.goToIndex(this.index+1);		
 	};
 
+    /**
+    * @ngdoc method
+    * @name decrement
+    * @methodOf sdco-slides.service:sdcoSlidesNavigatorService
+    * @description
+    * Decrement the index if possible and go to the associated view
+    **/
 	this.decrement= function(){
 		return this.goToIndex(this.index-1);
 	};
 
+    /**
+    * @ngdoc method
+    * @name goToIndex
+    * @methodOf sdco-slides.service:sdcoSlidesNavigatorService
+    * @description
+    * Update the index if possible and go to the associated view accordingly
+    *
+    * @param {int} idx the index to go to
+    **/
 	this.goToIndex= function(idx){
 		if (idx<0){
 			return 0;
@@ -43,10 +73,28 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 		return idx;	
 	};
 
+    /**
+    * @ngdoc method
+    * @name getIndex
+    * @methodOf sdco-slides.service:sdcoSlidesNavigatorService
+    * @description
+    * Get the current index
+    **/
 	this.getIndex= function(){
 		return this.index;
 	};
 
+    /**
+    * @ngdoc method
+    * @name getIndexFromUrl
+    * @methodOf sdco-slides.service:sdcoSlidesNavigatorService
+    * @description
+    * Get the current index based on the url value
+    *
+    * @param {String} url the url to parse
+    *
+    * @returns {int} the index retrieved from the url
+    **/
 	this.getIndexFromUrl= function(url){
 		var regex=/\d+/;
 		var matches= url.match(regex);
@@ -56,6 +104,13 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 		return 0;
 	};
 
+    /**
+    * @ngdoc method
+    * @name init
+    * @methodOf sdco-slides.service:sdcoSlidesNavigatorService
+    * @description
+    * Listen to route changes events and update index accordingly
+    **/
 	this.init= function(){
 		var that= this;
 

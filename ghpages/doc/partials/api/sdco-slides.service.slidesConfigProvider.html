@@ -1,0 +1,39 @@
+<h1><code ng:non-bindable="">slidesConfigProvider</code>
+<div><span class="hint">service in module <code ng:non-bindable="">sdco-slides</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="sdco-slides-service-page sdco-slides-service-slidesconfigprovider-page"><p> 
+Provider of <a href="api/sdco-slides.service:slidesConfig">slidesConfig</a>
+    This service can be used to configure some slides behaviors for a new application.
+ The applyConf method has to be called during the configuration phase.
+</p> 
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_applyconf">applyConf()</h3>
+<div class="applyconf"><div class="applyconf-page"><p>Do all needed configuration steps such as routing...</p>
+</div></div>
+</li>
+<li><h3 id="methods_settemplatesrootpath">setTemplatesRootPath(templatesRootPath)</h3>
+<div class="settemplatesrootpath"><div class="settemplatesrootpath-page"><p>Update the config object by adding the <b>templatesRootPath</b> property
+for the root path for your templates</p>
+</div><h5 id="methods_settemplatesrootpath_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>templatesRootPath</td><td><a href="" class="label type-hint type-hint-string">String</a></td><td><div class="settemplatesrootpath-page"><p>the root path for your templates</p>
+</div> <p><em>(default: 'views/partials/')</em></p></td></tr></tbody></table></div>
+</li>
+</ul>
+</div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="sdco-slides-service-page sdco-slides-service-slidesconfigprovider-page"><p><pre>
+angular.module(&#39;slidesSample&#39;, [&#39;sdco-slides&#39;])
+//Config routes
+.config([&#39;slidesConfigProvider&#39;,
+  function(slidesConfigProvider){
+    slidesConfigProvider.applyConf();
+}])
+//Init view classes
+.run([&#39;slidesConfig&#39;,  function(slidesConfig){
+  slidesConfig.init();
+}]);</p>
+</div></div>
+</div>

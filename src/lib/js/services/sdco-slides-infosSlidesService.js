@@ -1,4 +1,11 @@
 angular.module('sdco-slides.services')
+/**
+ * @ngdoc service
+ * @name sdco-slides.service:sdcoInfosSlidesService
+ *
+ * @description
+ * The json slides object.
+ **/
 .constant(
 	'sdcoInfosSlidesService', 
 	(
