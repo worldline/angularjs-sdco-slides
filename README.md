@@ -26,29 +26,29 @@ Angular library to help create your own slides.
 <p> Your html file will need to import some stylesheets and js files in order to use this library. </p>
 <p> Include stylesheets (path depends where you bower dependencies are located and how you serve them) </p>
 <pre>
-<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
-<link rel="stylesheet" href="/angular-sdco-tools/dist/styles/angular-sdco-tools.css">
-<link rel="stylesheet" href="/angular-sdco-slides/dist/styles/angular-sdco-slides.css">
+&lt;link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css"&gt;
+&lt;link rel="stylesheet" href="/angular-sdco-tools/dist/styles/angular-sdco-tools.css"&gt;
+&lt;link rel="stylesheet" href="/angular-sdco-slides/dist/styles/angular-sdco-slides.css"&gt;
 </pre>
 
 <p> Include javascript </p>
 <pre>
-<script src="/jquery/dist/jquery.js"></script>
-<script src="/angular/angular.js" type="text/javascript"></script>
-<script src="/angular-route/angular-route.js" type="text/javascript"></script>
-<script src="/angular-animate/angular-animate.js" type="text/javascript"></script>
-<script src="/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
-<script src="/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"></script>
-<script src="/angular-sdco-tools/dist/js/angular-sdco-tools.js" type="text/javascript"></script>
-<script src="/angular-sdco-slides/dist/js/angular-sdco-slides.js" type="text/javascript"></script>	
+&lt;script src="/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="/angular/angular.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/angular-route/angular-route.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/angular-animate/angular-animate.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/angular-sanitize/angular-sanitize.min.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/angular-bootstrap/ui-bootstrap-tpls.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/angular-sdco-tools/dist/js/angular-sdco-tools.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/angular-sdco-slides/dist/js/angular-sdco-slides.js" type="text/javascript"&gt;&lt;/script&gt;	
 </pre>
 
 <p> Use the directive which owns all the behavior </p>
 <pre>
-	<sdco-slidescontainer
+	&lt;sdco-slidescontainer
             progress-bar-display="global"
-        >
-	</sdco-slidescontainer>
+        &gt;
+	&lt;/sdco-slidescontainer&gt;
 </pre>
 
 <h2>Edit your slides</h2>
