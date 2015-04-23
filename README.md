@@ -72,9 +72,9 @@ Angular library to help create your own slides.
  <li> Define your slides content.  In <b>views/partials/</b>, create the file <b>templateOne.html</b> 
  and <b>templateTwo.html</b> and add them the following content:
   <pre>
-<div>
+&lt;div&gt;
  This is my slide content
-</div>
+&lt;/div&gt;
   </pre>
  </li> 
 </ul>
