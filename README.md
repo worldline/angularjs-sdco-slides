@@ -55,7 +55,7 @@ Angular library to help create your own slides.
 
 <p> 
  At this point, you only have to edit your new slides. Have a look at <b>src/sample</b> to view the folder structure (don't report to this sample to know which js/css files you have to include, it uses the splited file which are not distributed through bower instead of the whole library).
-<p>
+</p>
 
 <ul>
  <li> Create a <b>data/slides.json</b> and define your templates pathes 
