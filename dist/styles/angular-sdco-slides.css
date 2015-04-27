@@ -130,6 +130,10 @@ button.right-link{
 	color:#0040CA;
 }
 
+.view-content h1{
+	margin-left: 1em;
+}
+
 .view-content h2{
 	margin-left: 1.5em;
 }
