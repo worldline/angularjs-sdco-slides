@@ -58,6 +58,7 @@ button.right-link{
 
 /* VIEW CONTENT */
 .view-content{
+	position: absolute;
 	margin-left: 50px;
 	margin-right: 50px;
 	padding: 0 1em 0.5em 1em;
@@ -71,8 +72,14 @@ button.right-link{
 	border-left: 3px solid #DFDFDF;
 }
 
-.view-content  h1{
-	margin-left: 1em;
+.view-content  h1, .view-content  h2, .view-content  h3{
 	color:#0040CA;
+}
 
+.view-content h2{
+	margin-left: 1.5em;
+}
+
+.view-content h3{
+	margin-left: 1.6em;
 }
