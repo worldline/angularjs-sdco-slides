@@ -1,26 +1,17 @@
 angular.module('sdco-slides.directives')
  /**
  * @ngdoc directive
- * @name sdco-slides.directive:sdcoMoveSlide
+ * @name sdco-slides.directive:sdcoSlidesGoTo
  * @restrict A
  * @scope
  *
  * @description
  * <p>
- * Used internally only.
  * Listen for click on the element it is used on,
- * and update the binded index by decrementing it if left is true, 
- * or incrementing it if right is true
- * </p>
- * <h2> Remark </h2>
- * <p>
- * The index is used gloablly in the application and corresponds to the current slide index
+ * and go to the slides targeted by 'dest'
  * </p>
  *
- * @param {Boolean} left if true, the index will be decremented
- * @param {Boolean} right if true, the index will be incremented
- * @param {int} currentIndex the binded index
- * @param {function} action a callback to call each time the element is clicked
+ * @param {Integer} dest the index of the slide to go to
  **/ 
 .directive('sdcoSlidesGoTo',[ '$log', '$rootScope', 'sdcoSlidesNavigatorService',
 	function($log, $rootScope, sdcoSlidesNavigatorService){
@@ -34,9 +25,7 @@ angular.module('sdco-slides.directives')
 				element.on('click',function(e){
 					e.preventDefault();
 					scope.$apply(function(){
-				    	// scope.currentIndex= parseInt(scope.dest);
 				    	$rootScope.currentIndex++;
-				    	// sdcoSlidesNavigatorService.goToIndex(2);
 					});
 				});
 			}
