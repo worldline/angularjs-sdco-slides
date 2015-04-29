@@ -209,6 +209,51 @@ angular.module('sdco-slides.directives')
 angular.module('sdco-slides.directives')
  /**
  * @ngdoc directive
+ * @name sdco-slides.directive:sdcoMoveSlide
+ * @restrict A
+ * @scope
+ *
+ * @description
+ * <p>
+ * Used internally only.
+ * Listen for click on the element it is used on,
+ * and update the binded index by decrementing it if left is true, 
+ * or incrementing it if right is true
+ * </p>
+ * <h2> Remark </h2>
+ * <p>
+ * The index is used gloablly in the application and corresponds to the current slide index
+ * </p>
+ *
+ * @param {Boolean} left if true, the index will be decremented
+ * @param {Boolean} right if true, the index will be incremented
+ * @param {int} currentIndex the binded index
+ * @param {function} action a callback to call each time the element is clicked
+ **/ 
+.directive('sdcoSlidesGoTo',[ '$log', '$rootScope', 'sdcoSlidesNavigatorService',
+	function($log, $rootScope, sdcoSlidesNavigatorService){
+		return{
+			restrict: 'A',
+			scope:{
+				dest:'@'
+			},
+			link:function(scope, element, attrs){
+
+				element.on('click',function(e){
+					e.preventDefault();
+					scope.$apply(function(){
+				    	// scope.currentIndex= parseInt(scope.dest);
+				    	$rootScope.currentIndex++;
+				    	// sdcoSlidesNavigatorService.goToIndex(2);
+					});
+				});
+			}
+		};
+	}
+]);
+angular.module('sdco-slides.directives')
+ /**
+ * @ngdoc directive
  * @name sdco-slides.directive:sdcoSlidesKeydown
  * @restrict A
  * @scope
@@ -280,9 +325,9 @@ angular.module('sdco-slides.directives')
  * </sdco-editor>
  * </pre>
  **/
-.directive('sdcoSlidescontainer', ['$rootScope','$window', '$timeout', 
-   '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
-   function($rootScope, $window, $timeout, $log, sdcoInfosSlidesService, 
+.directive('sdcoSlidescontainer', ['$window', '$timeout', 
+   '$log', '$rootScope', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
+   function($window, $timeout, $log, $rootScope, sdcoInfosSlidesService, 
    			sdcoSlidesNavigatorService,  sdcoEditorService){
 
 	   	return {
@@ -321,26 +366,26 @@ angular.module('sdco-slides.directives')
 		'',
 			link: function($scope, $element, $attrs){
 
+				$rootScope.currentIndex= sdcoSlidesNavigatorService.getIndex();
+			    sdcoSlidesNavigatorService.indexCallback= function(index){
+			      $rootScope.currentIndex= index;
+			    };
+
+			    //Watch currentIndex to go to the specified slide
+			    $rootScope.$watch('currentIndex', function(newValue, oldValue){
+			        if (newValue !== undefined){
+			            $rootScope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
+			        }
+			    });				
+
 				$scope.progressBarDisplay= $attrs.progressBarDisplay;
 
 			    $scope.slides= sdcoInfosSlidesService.templates;
-			    $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
-			    sdcoSlidesNavigatorService.indexCallback= function(index){
-			      $scope.currentIndex= index;
-			    };
-
-
-			    //Watch currentIndex to go to the specified slide
-			    $scope.$watch('currentIndex', function(newValue, oldValue){
-			        if (newValue !== undefined){
-			            $scope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
-			        }
-			    });
 
 			    $scope.action= function(){ 
 			      sdcoEditorService.toDom();
 			      sdcoEditorService.reset();
-			    };		
+			    };		    
 
 			}
 		};

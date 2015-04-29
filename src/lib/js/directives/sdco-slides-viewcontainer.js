@@ -27,9 +27,9 @@ angular.module('sdco-slides.directives')
  * </sdco-editor>
  * </pre>
  **/
-.directive('sdcoSlidescontainer', ['$rootScope','$window', '$timeout', 
-   '$log', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
-   function($rootScope, $window, $timeout, $log, sdcoInfosSlidesService, 
+.directive('sdcoSlidescontainer', ['$window', '$timeout', 
+   '$log', '$rootScope', 'sdcoInfosSlidesService', 'sdcoSlidesNavigatorService', 'sdcoEditorService',
+   function($window, $timeout, $log, $rootScope, sdcoInfosSlidesService, 
    			sdcoSlidesNavigatorService,  sdcoEditorService){
 
 	   	return {
@@ -68,26 +68,26 @@ angular.module('sdco-slides.directives')
 		'',
 			link: function($scope, $element, $attrs){
 
+				$rootScope.currentIndex= sdcoSlidesNavigatorService.getIndex();
+			    sdcoSlidesNavigatorService.indexCallback= function(index){
+			      $rootScope.currentIndex= index;
+			    };
+
+			    //Watch currentIndex to go to the specified slide
+			    $rootScope.$watch('currentIndex', function(newValue, oldValue){
+			        if (newValue !== undefined){
+			            $rootScope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
+			        }
+			    });				
+
 				$scope.progressBarDisplay= $attrs.progressBarDisplay;
 
 			    $scope.slides= sdcoInfosSlidesService.templates;
-			    $scope.currentIndex= sdcoSlidesNavigatorService.getIndex();
-			    sdcoSlidesNavigatorService.indexCallback= function(index){
-			      $scope.currentIndex= index;
-			    };
-
-
-			    //Watch currentIndex to go to the specified slide
-			    $scope.$watch('currentIndex', function(newValue, oldValue){
-			        if (newValue !== undefined){
-			            $scope.currentIndex= sdcoSlidesNavigatorService.goToIndex(newValue);
-			        }
-			    });
 
 			    $scope.action= function(){ 
 			      sdcoEditorService.toDom();
 			      sdcoEditorService.reset();
-			    };		
+			    };		    
 
 			}
 		};

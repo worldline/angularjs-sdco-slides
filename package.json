@@ -7,6 +7,7 @@
   },
   "scripts": {
         "dist":"gulp --gulpfile more/gulp/standard.js --cwd .",
+        "serve":"gulp express --gulpfile more/gulp/standard.js --cwd .",
         "ghpages":"gulp --gulpfile more/gulp/ghpages.js --cwd ."
     },
   "dependencies": {},
