@@ -1,5 +1,5 @@
 /* Author: Legrand Régis<regis.legrand@worldline.com> */
-/* Version: 1.0.2-SNAPSHOT */
+/* Version: 1.0.1 */
 
 
 /**
@@ -654,7 +654,7 @@ angular.module('sdco-slides.directives')
 				element.on('click',function(e){
 					e.preventDefault();
 					scope.$apply(function(){
-				    	$rootScope.currentIndex++;
+				    	$rootScope.currentIndex= parseInt(scope.dest) - 1;
 					});
 				});
 			}

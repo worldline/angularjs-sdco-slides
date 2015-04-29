@@ -25,7 +25,7 @@ angular.module('sdco-slides.directives')
 				element.on('click',function(e){
 					e.preventDefault();
 					scope.$apply(function(){
-				    	$rootScope.currentIndex++;
+				    	$rootScope.currentIndex= parseInt(scope.dest) - 1;
 					});
 				});
 			}
