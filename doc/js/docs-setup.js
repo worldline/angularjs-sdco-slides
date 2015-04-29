@@ -41,6 +41,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "sdco-slides.directive:sdcoSlidesGoTo",
+      "shortName": "sdcoSlidesGoTo",
+      "type": "directive",
+      "moduleName": "sdco-slides",
+      "shortDescription": "",
+      "keywords": "api click dest directive element listen sdco-slides slide slides targeted"
+    },
+    {
+      "section": "api",
       "id": "sdco-slides.directive:sdcoSlidesKeydown",
       "shortName": "sdcoSlidesKeydown",
       "type": "directive",
