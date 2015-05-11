@@ -1,6 +1,6 @@
 {
   "name": "angular-sdco-slides",
-  "version": "1.0.2-SNAPSHOT",
+  "version": "1.0.3-SNAPSHOT",
   "main": [
     "./dist/js/angular-sdco-slides-min.js", 
     "./dist/js/angular-sdco-slides.js", 
