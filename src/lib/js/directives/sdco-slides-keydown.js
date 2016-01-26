@@ -18,8 +18,8 @@ angular.module('sdco-slides.directives')
  *
  * @param {int} currentIndex the binded index
  **/
-.directive('sdcoSlidesKeydown',[ '$log',
-	function($log){
+.directive('sdcoSlidesKeydown',[ '$log', 'sdcoSlidesNavigatorService',
+	function($log, sdcoSlidesNavigatorService){
 		return{
 			restrict: 'A',
 			scope:{
@@ -28,7 +28,7 @@ angular.module('sdco-slides.directives')
 			link:function(scope, element, attrs){
 
 				//Make the element selectable
-				angular.element('body').on('keydown',function(e){
+				sdcoSlidesNavigatorService.displayNav && angular.element('body').on('keydown',function(e){
 					scope.$apply(function(){
 						if (e.keyCode == 37){//left
 							scope.currentIndex--;

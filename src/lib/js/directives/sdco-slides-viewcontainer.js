@@ -37,7 +37,7 @@ angular.module('sdco-slides.directives')
 			replace: true,
 			template:''+
 				'<div sdco-slides-keydown current-index="currentIndex">' +
-				'	<nav>' +
+				'	<nav ng-if="displayNav">' +
 				'		<h1> <a>navigation features</a> </h1>' +
 				'		<div class="row" style="margin-left:5px; margin-right: 0;">' +
 				'			<sdco-updatable-progress-bar' +
@@ -67,6 +67,8 @@ angular.module('sdco-slides.directives')
 				'</div>' +
 		'',
 			link: function($scope, $element, $attrs){
+
+				$scope.displayNav= sdcoSlidesNavigatorService.displayNav;
 
 				$rootScope.currentIndex= sdcoSlidesNavigatorService.getIndex();
 			    sdcoSlidesNavigatorService.indexCallback= function(index){

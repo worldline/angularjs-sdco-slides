@@ -13,6 +13,7 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 	this.nbSlides= sdcoInfosSlidesService.templates.length;
 	this.nextRoute= '/';
 	this.indexCallback= undefined;
+	this.displayNav= true;
 
     /**
     * @ngdoc method
@@ -116,6 +117,11 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 
 		//initialize index
 		that.index= this.getIndexFromUrl($location.path());
+
+		var urlsParams= $location.search();
+		if (urlsParams.displayNav !== undefined){
+			that.displayNav= (urlsParams.displayNav === 'true');
+		}
 
 		//Update index when url changes
 		$rootScope.$on('$routeChangeStart', function(event, next, current){
