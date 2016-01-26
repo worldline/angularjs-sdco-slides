@@ -260,8 +260,8 @@ angular.module('sdco-slides.directives')
  *
  * @param {int} currentIndex the binded index
  **/
-.directive('sdcoSlidesKeydown',[ '$log',
-	function($log){
+.directive('sdcoSlidesKeydown',[ '$log', 'sdcoSlidesNavigatorService',
+	function($log, sdcoSlidesNavigatorService){
 		return{
 			restrict: 'A',
 			scope:{
@@ -270,7 +270,7 @@ angular.module('sdco-slides.directives')
 			link:function(scope, element, attrs){
 
 				//Make the element selectable
-				angular.element('body').on('keydown',function(e){
+				sdcoSlidesNavigatorService.displayNav && angular.element('body').on('keydown',function(e){
 					scope.$apply(function(){
 						if (e.keyCode == 37){//left
 							scope.currentIndex--;
@@ -324,7 +324,7 @@ angular.module('sdco-slides.directives')
 			replace: true,
 			template:''+
 				'<div sdco-slides-keydown current-index="currentIndex">' +
-				'	<nav>' +
+				'	<nav ng-if="displayNav">' +
 				'		<h1> <a>navigation features</a> </h1>' +
 				'		<div class="row" style="margin-left:5px; margin-right: 0;">' +
 				'			<sdco-updatable-progress-bar' +
@@ -354,6 +354,8 @@ angular.module('sdco-slides.directives')
 				'</div>' +
 		'',
 			link: function($scope, $element, $attrs){
+
+				$scope.displayNav= sdcoSlidesNavigatorService.displayNav;
 
 				$rootScope.currentIndex= sdcoSlidesNavigatorService.getIndex();
 			    sdcoSlidesNavigatorService.indexCallback= function(index){
@@ -689,6 +691,7 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 	this.nbSlides= sdcoInfosSlidesService.templates.length;
 	this.nextRoute= '/';
 	this.indexCallback= undefined;
+	this.displayNav= true;
 
     /**
     * @ngdoc method
@@ -792,6 +795,11 @@ function (sdcoInfosSlidesService, sdcoAnimationManagerService, $location, $rootS
 
 		//initialize index
 		that.index= this.getIndexFromUrl($location.path());
+
+		var urlsParams= $location.search();
+		if (urlsParams.displayNav !== undefined){
+			that.displayNav= (urlsParams.displayNav === 'true');
+		}
 
 		//Update index when url changes
 		$rootScope.$on('$routeChangeStart', function(event, next, current){
